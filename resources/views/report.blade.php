@@ -195,7 +195,7 @@
                     </tr>
                     <tr>
                         <td>Jabatan</td>
-                        <td>: Operator PSIN </td>
+                        <td>: Operator PISN </td>
                     </tr>
                     <tr>
                         <td>Unit Kerja</td>

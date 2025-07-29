@@ -45,7 +45,7 @@
                             .map(cell => cell.innerText)
                             .join('\t'); // Tab sebagai pemisah kolom
                     }).join('\n'); // Enter sebagai pemisah baris
-
+            
                     // Copy ke clipboard
                     navigator.clipboard.writeText(text).then(() => {
                         alert('Data tabel berhasil disalin!');
@@ -56,8 +56,9 @@
                     Copy Data
                 </button>
                 @if (session('status'))
-                    <div class="alert alert-success">
+                    <div x-data="{ show: true }" x-show="show" x-transition class="alert alert-success mt-2 position-relative">
                         {{ session('status') }}
+                        <button class="btn btn-sm btn-close" type="button" @click="show = false">&times;</button>
                     </div>
                 @endif
                 <div>
@@ -136,7 +137,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><a target="_blank" href="{{ $user->link }}">{{ $user->nohp }}</a></td>
+                                    <td>
+                                        @if ($user->status_eligible == 'Eligible')
+                                            <a target="_blank" href="{{ $user->link }}">
+                                                <span class="mai-logo-whatsapp"></span>
+                                                {{ $user->nohp }}
+                                            </a>
+                                        @else
+                                            <span>{{ $user->nohp }}</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $user->tanggal_daftar }}</td>
                                 </tr>
                             @endforeach
