@@ -36,7 +36,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-white shadow-sm">
             <div class="container">
-                <a href="index.html" class="navbar-brand">Validasi<span class="text-primary">PIN</span></a>
+                <a href="{{ url('') }}" class="navbar-brand">Validasi<span class="text-primary">PIN</span></a>
 
                 <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -45,10 +45,13 @@
                 <div class="navbar-collapse collapse" id="navbarContent">
                     <ul class="navbar-nav ml-lg-4 pt-3 pt-lg-0">
                         <li class="nav-item active">
-                            <a href="#" class="nav-link">Tentang TIPD</a>
+                            <a href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" class="nav-link">UPT TIPD</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">PISN Kemdiktisaintek</a>
+                            <a href="https://pddikti.kemdiktisaintek.go.id/" class="nav-link">PDDikti</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://pisn.kemdiktisaintek.go.id/" class="nav-link">PISN Kemdiktisaintek</a>
                         </li>
                     </ul>
 
@@ -73,7 +76,7 @@
                         <li><a target="_blank" href="https://iaknpky.ac.id/">IAKNPKY</a></li>
                         <li><a target="_blank" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/">UPT TIPD IAKNPKY</a></li>
                         <li><a target="_blank" href="https://ecampus.iaknpky.ac.id/">SIMAK IAKNPKY</a></li>
-                        <li><a target="_blank" href="https://kemdiktisaintek.go.id/">PDDIKTI Kemdiktisaintek</a></li>
+                        <li><a target="_blank" href="https://pddikti.kemdiktisaintek.go.id/">PDDIKTI Kemdiktisaintek</a></li>
                         <li><a target="_blank" href="https://pisn.kemdiktisaintek.go.id/">PISN Kemdiktisaintek</a></li>
                     </ul>
                 </div>
