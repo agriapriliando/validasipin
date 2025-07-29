@@ -6,7 +6,7 @@
                 <p class="text-lg mb-5">Operator PISN pada UPT TIPD melakukan pengecekan Status Eligible Calon Lulusan</p>
 
                 <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split ml-2">Cari Tahu PISN? <div class="fab"><span class="mai-question"></span></div></a>
-                <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/https://wa.me/6282352127683" class="btn btn-outline border text-secondary">Tanya Operator Kampus?</a>
+                <a target="_blank" href="https://wa.me/6282352127683" class="btn btn-outline border text-secondary">Tanya Operator Kampus?</a>
             </div>
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <div class="subhead">Formulir</div>

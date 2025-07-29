@@ -56,7 +56,7 @@
                     </ul>
 
                     <div class="ml-auto">
-                        <a href="#" class="btn btn-primary rounded-pill">Tanya ?</a>
+                        <a href="https://wa.me/6282352127683" class="btn btn-primary rounded-pill">Tanya ?</a>
                     </div>
                 </div>
             </div>
