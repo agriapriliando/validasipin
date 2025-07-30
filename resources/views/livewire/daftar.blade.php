@@ -158,7 +158,7 @@
                                             <button type="button" @click="edit = false; $wire.editingKeteranganNim = null; $wire.editingKeteranganValue = ''">X</button>
                                         </form>
                                     </td>
-                                    <td>{{ $user->prodi }}</td>
+                                    <td>{{ $user->prodi_singkat }}</td>
                                     <td>
                                         @if ($user->status_eligible == 'Eligible')
                                             <a target="_blank" href="{{ $user->link }}">

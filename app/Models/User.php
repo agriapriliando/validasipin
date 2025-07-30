@@ -93,4 +93,37 @@ class User extends Authenticatable
                 : null,
         );
     }
+
+    protected function prodiSingkat(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->singkatanProdi($this->prodi)
+        );
+    }
+
+    // Fungsi helper untuk menyingkat prodi
+    private function singkatanProdi($nama)
+    {
+        // Contoh mapping manual, kamu bisa tambah sesuai kebutuhan
+        $mapping = [
+            'S1 Pendidikan Agama Kristen' => 'S1 PAK',
+            'S1 Teologi (Akademik)'   => 'S1 Teo',
+        ];
+
+        // Return singkatan jika ada di mapping, kalau tidak ada, ambil 3 huruf awal tiap kata kedua dst.
+        if (isset($mapping[$nama])) {
+            return $mapping[$nama];
+        }
+
+        // Fallback: Ambil inisial kata kedua dst (S1 Pendidikan Teknik Mesin -> S1 PTM)
+        $arr = explode(' ', $nama);
+        if (count($arr) > 2) {
+            $inisial = $arr[0] . ' ';
+            for ($i = 1; $i < count($arr); $i++) {
+                $inisial .= strtoupper($arr[$i][0]);
+            }
+            return $inisial;
+        }
+        return $nama;
+    }
 }
