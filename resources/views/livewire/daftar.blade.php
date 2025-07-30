@@ -52,9 +52,11 @@
                     });
                 }
             }">
-                <button class="btn btn-success btn-sm mt-2" @click="copyTable">
+                <button class="btn btn-success btn-sm m-2" @click="copyTable">
                     Copy Data
                 </button>
+                <a class="btn btn-sm btn-primary m-2" target="_blank" href="https://docs.google.com/spreadsheets/d/1xttNvO8zF_FHAo70s25CYtVyepa_At0l_oWC5pCDTVE/edit?usp=sharing">Daftar Ajuan
+                    Perubahan Data Mahasiswa</a>
                 @if (session('status'))
                     <div x-data="{ show: true }" x-show="show" x-transition class="alert alert-success mt-2 position-relative">
                         {{ session('status') }}
