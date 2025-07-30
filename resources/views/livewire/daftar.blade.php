@@ -72,8 +72,9 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nama Mahasiswa</th>
-                                <th scope="col">Prodi</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Keterangan</th>
+                                <th scope="col">Prodi</th>
                                 <th scope="col">No HP</th>
                                 <th scope="col">Tanggal</th>
                             </tr>
@@ -106,7 +107,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $user->prodi }}</td>
                                     @php
                                         $btnClass = 'secondary'; // default
                                         if ($user->status_eligible == '' || $user->status_eligible == 'Belum Cek') {
@@ -120,7 +120,7 @@
                                     <td>
                                         <div x-data="{ open: false }" style="display:inline;">
                                             <button class="btn btn-outline-{{ $btnClass }} btn-sm" @click="open = true">
-                                                {{ $user->status_eligible == '' ? 'Belum Cek' : $user->status_eligible }}
+                                                {{ $user->status_eligible }}
                                             </button>
 
                                             <!-- Modal Konfirmasi -->
@@ -139,6 +139,26 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td x-data="{ edit: false }">
+                                        <!-- TAMPILAN VIEW -->
+                                        <div x-show="!edit"
+                                            @click="
+                                                    edit = true;
+                                                    $wire.startEditKeterangan('{{ $user->nim }}', '{{ $user->keterangan }}')
+                                                "
+                                            style="cursor:pointer;">
+                                            {{ $user->keterangan == '' ? '-' : $user->keterangan }}
+                                            <span class="mai-pencil"></span>
+                                        </div>
+
+                                        <!-- TAMPILAN EDIT -->
+                                        <form @click.outside="edit = false" x-show="edit" wire:submit.prevent="updateKeterangan('{{ $user->nim }}')" style="display:inline;">
+                                            <input type="text" wire:model="editingKeteranganValue" class="form-control d-inline-block" style="width:120px;">
+                                            <button type="submit" @click="edit = false">Simpan</button>
+                                            <button type="button" @click="edit = false; $wire.editingKeteranganNim = null; $wire.editingKeteranganValue = ''">X</button>
+                                        </form>
+                                    </td>
+                                    <td>{{ $user->prodi }}</td>
                                     <td>
                                         @if ($user->status_eligible == 'Eligible')
                                             <a target="_blank" href="{{ $user->link }}">

@@ -15,6 +15,9 @@ class Daftar extends Component
     public $perPage = 10;
     public $status;
 
+    public $editingKeteranganNim = null;
+    public $editingKeteranganValue = '';
+
     public function mount()
     {
         $this->allprodi = User::pluck('prodi')->unique()->values();
@@ -48,6 +51,23 @@ class Daftar extends Component
     {
         User::whereNim($nim)->delete();
         session()->flash('status', 'Data ' . $nim . ' berhasil dihapus!');
+    }
+
+    public function startEditKeterangan($nim, $keterangan)
+    {
+        $this->editingKeteranganNim = $nim;
+        $this->editingKeteranganValue = $keterangan;
+    }
+
+    public function updateKeterangan($nim)
+    {
+        $user = User::where('nim', $nim)->first();
+        if ($user) {
+            $user->keterangan = $this->editingKeteranganValue;
+            $user->save();
+        }
+        $this->editingKeteranganNim = null;
+        $this->editingKeteranganValue = '';
     }
 
     public function render()
