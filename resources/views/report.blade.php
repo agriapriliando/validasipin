@@ -247,7 +247,7 @@
             @endif
             <p>Berdasarkan hasil pengecekan pada sistem Penomoran Ijazah Nasional
                 (PIN) bahwa mahasiswa yang bersangkutan :</p>
-            @if ($mhs->status_eligible == 'Belum Cek')
+            @if ($mhs->status_eligible != 'Eligible')
                 <h5 style="text-align: center; font-weight: bold;">Status Eligible/Non Eligible Belum divalidasi Oleh Admin
                     <br>Silahkan Tunggu 2x24 Jam
                 </h5>
