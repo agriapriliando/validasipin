@@ -111,15 +111,19 @@ class User extends Authenticatable
         ];
 
         // Return singkatan jika ada di mapping, kalau tidak ada, ambil 3 huruf awal tiap kata kedua dst.
+        // cek jika ada key yang sesuai dengan $nama
         if (isset($mapping[$nama])) {
             return $mapping[$nama];
         }
 
-        // Fallback: Ambil inisial kata kedua dst (S1 Pendidikan Teknik Mesin -> S1 PTM)
+        // Fallback: Ambil inisial kata kedua dst (S1 Pendidikan Agama Kristen -> S1 PAK)
         $arr = explode(' ', $nama);
         if (count($arr) > 2) {
+            // Ambil inisial dari kata pertama S1 S2 index 0
             $inisial = $arr[0] . ' ';
+            // looping dimulai dari index 1 kata kedua dst
             for ($i = 1; $i < count($arr); $i++) {
+                // gabungan huruf pertama tiap kata
                 $inisial .= strtoupper($arr[$i][0]);
             }
             return $inisial;

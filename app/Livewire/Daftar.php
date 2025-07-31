@@ -14,6 +14,7 @@ class Daftar extends Component
     public $search = '';
     public $perPage = 10;
     public $status;
+    public $angkatan;
 
     public $editingKeteranganNim = null;
     public $editingKeteranganValue = '';
@@ -75,6 +76,7 @@ class Daftar extends Component
         $users = User::prodi($this->selectedProdi)
             ->search($this->search)
             ->status($this->status)
+            ->where('nim', 'like', $this->angkatan . '%')
             ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
 

@@ -7,9 +7,9 @@
     </style>
     <div class="row">
         <div class="col-12 mt-4">
-            <h3 class="post-title">Daftar Ajuan Validasi PIN</h3>
+            <h3 class="post-title">Daftar Ajuan Surat Validasi PIN</h3>
             <div class="row">
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-4 mb-2">
                     <select wire:model.live="selectedProdi" class="form-control form-control-sm">
                         <option value="">=== Pilih Program Studi ===</option>
                         @foreach ($allprodi as $item)
@@ -17,23 +17,32 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-12 col-md-4">
-                    <input type="text" wire:model.live.debounce.250ms="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIM" aria-label="Search">
+                <div class="col-6 col-md-2 mb-2">
+                    <select wire:model.live="angkatan" class="form-control form-control-sm">
+                        <option value="">==Angkatan==</option>
+                        <option value="18">2018</option>
+                        <option value="19">2019</option>
+                        <option value="20">2020</option>
+                        <option value="21">2021</option>
+                    </select>
                 </div>
-                <div class="col-6 col-md-2">
+                <div class="col-6 col-md-2 mb-2">
                     <select wire:model.live="perPage" class="form-control form-control-sm">
                         <option value="10">10</option>
                         <option value="20">20</option>
-                        <option value="{{ $users->total() }}">All</option>
+                        <option value="{{ $users->total() }}">All {{ $users->total() }}</option>
                     </select>
                 </div>
-                <div class="col-6 col-md-2">
+                <div class="col-6 col-md-2 mb-2">
                     <select wire:model.live="status" class="form-control form-control-sm">
                         <option value="">======</option>
                         <option value="Belum Cek">Belum Cek</option>
                         <option value="Eligible">Eligible</option>
                         <option value="Non Eligible">Non Eligible</option>
                     </select>
+                </div>
+                <div class="col-12 col-md-4 mb-2">
+                    <input type="text" wire:model.live.debounce.250ms="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIM" aria-label="Search">
                 </div>
             </div>
             <div x-data="{
@@ -64,7 +73,9 @@
                     </div>
                 @endif
                 <div>
-                    <span class="text-muted">Menampilkan {{ $users->count() }} dari {{ $users->total() }} data</span>
+                    <span class="text-muted">
+                        Mahasiswa tidak bisa melihat Status Non Eligible, hanya terlihat oleh Admin <br>
+                        Menampilkan {{ $users->count() }} dari {{ $users->total() }} data</span>
                 </div>
                 <div style="overflow-x:auto;">
                     <table class="table mt-3" id="tabel-users">
