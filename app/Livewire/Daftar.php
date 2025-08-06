@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Tambahan;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,9 +20,12 @@ class Daftar extends Component
     public $editingKeteranganNim = null;
     public $editingKeteranganValue = '';
 
+    public $warning;
+
     public function mount()
     {
         $this->allprodi = User::pluck('prodi')->unique()->values();
+        $this->warning = Tambahan::whereJudul('Warning')->first();
     }
 
     // Reset ke halaman 1 jika filter berubah
@@ -46,6 +50,16 @@ class Daftar extends Component
             $user->status_eligible = 'Belum Cek';
         }
         $user->save();
+    }
+
+    public function toggleWarning()
+    {
+        $this->warning = Tambahan::whereJudul('Warning')->first();
+        if ($this->warning['isi'] == 'Aktif') {
+            Tambahan::whereJudul('Warning')->update(['isi' => '0']);
+        } else {
+            Tambahan::whereJudul('Warning')->update(['isi' => 'Aktif']);
+        }
     }
 
     public function delete($nim)

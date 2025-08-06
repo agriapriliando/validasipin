@@ -1,5 +1,34 @@
 <div class="home-banner">
     <div class="container pb-5">
+        @if ($warning['isi'] == 'Aktif')
+            <div class="row">
+                <style>
+                    @keyframes blink-bg-warning {
+
+                        0%,
+                        100% {
+                            background-color: #fff3cd;
+                            color: #856404;
+                        }
+
+                        50% {
+                            background-color: #856404;
+                            color: #fff3cd;
+                        }
+                    }
+
+                    .alert-blink-warning {
+                        animation: blink-bg-warning 1s linear infinite;
+                    }
+                </style>
+                <div class="col">
+                    <div x-data="{ show: true }" x-show="show" x-transition class="alert alert-warning alert-blink-warning alert-dismissible fade show" role="alert" style="margin-top:20px;">
+                        <strong>Mohon Maaf!</strong> Beberapa ajuan memerlukan waktu yang lebih lama untuk diproses, karena Aplikasi PISN Kemdikti sedang mengalami Gangguan. Terima Kasih.
+                        <button type="button" class="btn btn-sm btn-outline-warning" @click="show = false" aria-label="Close"><span class="mai-close"></span></button>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="row align-items-center">
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <h1 class="mb-4">Layanan Penerbitan Surat Validasi PIN</h1>

@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Helpers\Setting;
+use App\Models\Optional;
+use App\Models\Tambahan;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -89,6 +91,8 @@ class Pendaftaran extends Component
     }
     public function render()
     {
-        return view('livewire.pendaftaran');
+        return view('livewire.pendaftaran', [
+            'warning' => Tambahan::whereJudul('Warning')->first(),
+        ]);
     }
 }

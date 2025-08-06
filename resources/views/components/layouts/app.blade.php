@@ -45,13 +45,13 @@
                 <div class="navbar-collapse collapse" id="navbarContent">
                     <ul class="navbar-nav ml-lg-4 pt-3 pt-lg-0">
                         <li class="nav-item active">
-                            <a href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" class="nav-link">UPT TIPD</a>
+                            <a target="_blank" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" class="nav-link">UPT TIPD</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://pddikti.kemdiktisaintek.go.id/" class="nav-link">PDDikti</a>
+                            <a target="_blank" href="https://pddikti.kemdiktisaintek.go.id/" class="nav-link">PDDikti</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://pisn.kemdiktisaintek.go.id/" class="nav-link">PISN Kemdiktisaintek</a>
+                            <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="nav-link">PISN Kemdiktisaintek</a>
                         </li>
                     </ul>
 
@@ -86,7 +86,6 @@
                         <a href="#"><span class="mai-logo-facebook-f"></span></a>
                         <a href="#"><span class="mai-logo-youtube"></span></a>
                         <a href="#"><span class="mai-logo-twitter"></span></a>
-                        <a href="#"><span class="mai-logo-google"></span></a>
                     </div>
                 </div>
             </div>

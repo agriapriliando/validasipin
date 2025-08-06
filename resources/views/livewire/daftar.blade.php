@@ -44,6 +44,12 @@
                 <div class="col-12 col-md-4 mb-2">
                     <input type="text" wire:model.live.debounce.250ms="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIM" aria-label="Search">
                 </div>
+                <div class="col-12 col-md-4 mb-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" {{ $warning['isi'] == 'Aktif' ? 'checked' : '' }} wire:click="toggleWarning">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Informasi Gangguan di Halaman Depan</label>
+                    </div>
+                </div>
             </div>
             <div x-data="{
                 copyTable() {
