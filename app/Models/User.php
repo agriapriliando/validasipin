@@ -108,6 +108,7 @@ class User extends Authenticatable
         $mapping = [
             'S1 Pendidikan Agama Kristen' => 'S1 PAK',
             'S1 Teologi (Akademik)'   => 'S1 Teo',
+            'S1 Bimbingan dan Konseling Kristen'   => 'S1 BKK',
         ];
 
         // Return singkatan jika ada di mapping, kalau tidak ada, ambil 3 huruf awal tiap kata kedua dst.
