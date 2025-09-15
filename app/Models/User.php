@@ -80,7 +80,8 @@ class User extends Authenticatable
     public function scopeStatus($query, $status)
     {
         if ($status) {
-            return $query->where('status_eligible', 'like', "%{$status}%");
+            // return $query->where('status_eligible', 'like', "%{$status}%");
+            return $query->where('status_eligible', "%{$status}%");
         }
         return $query;
     }
