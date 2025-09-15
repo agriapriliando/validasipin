@@ -41,6 +41,13 @@
                         <option value="Non Eligible">Non Eligible</option>
                     </select>
                 </div>
+                <div class="col-6 col-md-2 mb-2">
+                    <select wire:model.live="filterNina" class="form-control form-control-sm">
+                        <option value="">Semua</option>
+                        <option value="ada">Ada NINA</option>
+                        <option value="kosong">Belum ada NINA</option>
+                    </select>
+                </div>
                 <div class="col-12 col-md-4 mb-2">
                     <input type="text" wire:model.live.debounce.250ms="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIM" aria-label="Search">
                 </div>
@@ -91,6 +98,7 @@
                                 <th scope="col">Nama Mahasiswa</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Keterangan</th>
+                                <th scope="col">NINA</th>
                                 <th scope="col">Prodi</th>
                                 <th scope="col">No HP</th>
                                 <th scope="col">Tanggal</th>
@@ -174,6 +182,25 @@
                                             <button type="submit" @click="edit = false">Simpan</button>
                                             <button type="button" @click="edit = false; $wire.editingKeteranganNim = null; $wire.editingKeteranganValue = ''">X</button>
                                         </form>
+                                    </td>
+                                    <td x-data="{ editing: false }" class="px-2" @click.outside="editing = false">
+                                        <div x-show="!editing">{{ $user->nina == '' ? '-' : $user->nina }}</div>
+                                        <!-- Input -->
+                                        <input x-show="editing" type="text" class="form-control form-control-sm @error('nina_' . $user->nim) is-invalid @enderror" value="{{ $user->nina }}"
+                                            wire:input.debounce.1000ms="updateNina('{{ $user->nim }}', $event.target.value)" :disabled="!editing">
+
+                                        <!-- Tombol -->
+                                        <div x-show="!editing" @click="editing = !editing" style="cursor: pointer;">
+                                            <span class="mai-pencil"></span>
+                                        </div>
+
+                                        <!-- Loader -->
+                                        <small class="text-muted" wire:loading wire:target="updateNina">menyimpan…</small>
+
+                                        <!-- Pesan error -->
+                                        @error('nina_' . $user->nim)
+                                            <small class="text-danger d-block">{{ $message }}</small>
+                                        @enderror
                                     </td>
                                     <td>{{ $user->prodi_singkat }}</td>
                                     <td>

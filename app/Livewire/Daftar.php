@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Tambahan;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,6 +24,8 @@ class Daftar extends Component
 
     public $warning;
 
+    public $filterNina = '';
+
     public function mount()
     {
         $this->allprodi = User::pluck('prodi')->unique()->values();
@@ -35,6 +39,15 @@ class Daftar extends Component
     }
     public function updatedSearch()
     {
+        $this->resetPage();
+    }
+    public function updatedStatus()
+    {
+        $this->resetPage();
+    }
+    public function updatedFilterNina()
+    {
+
         $this->resetPage();
     }
 
@@ -85,13 +98,45 @@ class Daftar extends Component
         $this->editingKeteranganValue = '';
     }
 
+    public function updateNina(string $nim, ?string $value): void
+    {
+        $validator = Validator::make(['nina' => $value], [
+            'nina' => [
+                'nullable',
+                'string',
+                'max:5',
+                Rule::unique('users', 'nina')->ignore($nim, 'nim'),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            // buang error lama, tambahkan error baru untuk nim ini
+            $this->resetErrorBag();
+            $this->addError('nina_' . $nim, $validator->errors()->first('nina'));
+            return;
+        }
+
+        User::where('nim', $nim)->update(['nina' => $value]);
+
+        // kalau berhasil, hapus error sebelumnya
+        $this->resetErrorBag();
+    }
+
     public function render()
     {
         $users = User::prodi($this->selectedProdi)
             ->search($this->search)
             ->status($this->status)
-            ->where('nim', 'like', $this->angkatan . '%')
-            ->orderBy('created_at', 'desc')
+            ->where('nim', 'like', $this->angkatan . '%');
+
+        // Filter berdasarkan NINA
+        if ($this->filterNina === 'ada') {
+            $users->whereNotNull('nina')->where('nina', '<>', '');
+        } elseif ($this->filterNina === 'kosong') {
+            $users->whereNull('nina')->orWhere('nina', '');
+        }
+
+        $users = $users->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
 
         // return $mhs;
