@@ -81,7 +81,7 @@ class User extends Authenticatable
     {
         if ($status) {
             // return $query->where('status_eligible', 'like', "%{$status}%");
-            return $query->where('status_eligible', "%{$status}%");
+            return $query->where('status_eligible', $status);
         }
         return $query;
     }
