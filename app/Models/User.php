@@ -27,6 +27,7 @@ class User extends Authenticatable
         'nim',
         'tempat_lahir',
         'tgl_lahir',
+        'nina',
         'alamat',
         'prodi',
         'nohp',

@@ -135,9 +135,9 @@ class Daftar extends Component
 
         // Filter berdasarkan NINA
         if ($this->filterNina === 'ada') {
-            $users->whereNotNull('nina')->where('nina', '<>', '');
+            $users->where('status_eligible', 'Eligible')->whereNotNull('nina')->where('nina', '<>', '');
         } elseif ($this->filterNina === 'kosong') {
-            $users->whereNull('nina')->orWhere('nina', '');
+            $users->where('status_eligible', 'Eligible')->whereNull('nina');
         }
 
         $jumlahPerProdi = User::select('prodi', DB::raw('count(*) as total'))
@@ -149,6 +149,10 @@ class Daftar extends Component
             ->get();
 
         $jumlah = User::count();
+
+        $jumlahNinaNull = User::whereNull('nina')->whereStatus_eligible('Eligible')->count();
+
+        $jumlahNinaNotNull = User::whereNotNull('nina')->whereStatus_eligible('Eligible')->count();
 
         $users = $users->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
@@ -168,6 +172,8 @@ class Daftar extends Component
             'jumlahPerProdi' => $jumlahPerProdi,
             'jumlahEligible' => $jumlahEligible,
             'jumlah' => $jumlah,
+            'jumlahNinaNull' => $jumlahNinaNull,
+            'jumlahNinaNotNull' => $jumlahNinaNotNull,
         ]);
     }
 }

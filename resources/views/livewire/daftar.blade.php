@@ -114,12 +114,15 @@
                             <div>Jumlah : {{ $jumlah }} Orang</div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <p class="fw-bold">STATUS ELIGIBLE</p>
+                            <h5>STATUS ELIGIBLE</h5>
                             @foreach ($jumlahEligible as $row)
                                 <div>
                                     {{ $row->status_eligible }} : {{ $row->total }} Orang
                                 </div>
                             @endforeach
+                            <h5>Status NINA (sesuai Eligible)</h5>
+                            <div>Ada : {{ $jumlahNinaNotNull }} Orang</div>
+                            <div>Belum Ada : {{ $jumlahNinaNull }} Orang</div>
                         </div>
                     </div>
                 </div>
@@ -241,10 +244,12 @@
                                         <input x-show="editing" type="text" class="form-control form-control-sm @error('nina_' . $user->nim) is-invalid @enderror" value="{{ $user->nina }}"
                                             wire:input.debounce.1000ms="updateNina('{{ $user->nim }}', $event.target.value)" :disabled="!editing">
 
-                                        <!-- Tombol -->
-                                        <div x-show="!editing" @click="editing = !editing" style="cursor: pointer;">
-                                            <span class="mai-pencil"></span>
-                                        </div>
+                                        @if ($user->status_eligible == 'Eligible')
+                                            <!-- Tombol -->
+                                            <div x-show="!editing" @click="editing = !editing" style="cursor: pointer;">
+                                                <span class="mai-pencil"></span>
+                                            </div>
+                                        @endif
 
                                         <!-- Loader -->
                                         <small class="text-muted" wire:loading wire:target="updateNina">menyimpan…</small>
