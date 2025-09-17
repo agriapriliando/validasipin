@@ -95,6 +95,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">NIM</th>
                                 <th scope="col">Nama Mahasiswa</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Keterangan</th>
@@ -114,8 +115,9 @@
                                         </button>
                                         <a target="_blank" href="{{ url('report/' . $user->id) }}"><span class="mai-print"></span></a>
                                     </th>
+                                    <td>{{ $user->nim }}</td>
                                     <td>
-                                        {{ $user->nim . ' - ' . $user->nama_mahasiswa }}
+                                        {{ $user->nama_mahasiswa }}
                                         <div style="display: inline;">
 
                                             <!-- Modal Konfirmasi -->
