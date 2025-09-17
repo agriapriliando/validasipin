@@ -26,6 +26,9 @@ class Daftar extends Component
 
     public $filterNina = '';
 
+    public $kolomTanggal;
+    public $kolomAksi;
+
     public function mount()
     {
         $this->allprodi = User::pluck('prodi')->unique()->values();

@@ -51,8 +51,25 @@
                 <div class="col-12 col-md-4 mb-2">
                     <input type="text" wire:model.live.debounce.250ms="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIM" aria-label="Search">
                 </div>
-                <div class="col-12 col-md-4 mb-2">
-                    <div class="form-check form-switch">
+                <style>
+                    .form-check-label {
+                        white-space: nowrap;
+                    }
+                </style>
+                <div class="col-12 col-md-4 mb-2 d-md-flex">
+                    <div class="form-check m-2">
+                        <input wire:model.live="kolomAksi" class="form-check-input" type="checkbox" value="" id="kolomAksi">
+                        <label class="form-check-label" for="kolomAksi">
+                            Kolom Cetak
+                        </label>
+                    </div>
+                    <div class="form-check m-2">
+                        <input wire:model.live="kolomTanggal" class="form-check-input" type="checkbox" value="" id="kolomTanggal">
+                        <label class="form-check-label" for="kolomTanggal">
+                            Kolom Tanggal
+                        </label>
+                    </div>
+                    <div class="form-check m-2">
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" {{ $warning['isi'] == 'Aktif' ? 'checked' : '' }} wire:click="toggleWarning">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Informasi Gangguan di Halaman Depan</label>
                     </div>
@@ -102,7 +119,9 @@
                                 <th scope="col">NINA</th>
                                 <th scope="col">Prodi</th>
                                 <th scope="col">No HP</th>
-                                <th scope="col">Tanggal</th>
+                                @if ($kolomTanggal)
+                                    <th scope="col">Tanggal</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -110,10 +129,12 @@
                                 <tr x-data="{ open: false }">
                                     <th scope="row">
                                         {{ ($users->currentPage() - 1) * $users->perPage() + $loop->index + 1 }}
-                                        <button @click="open = true" title="Hapus Data">
-                                            <span style="color: rgb(111, 64, 181)" class="mai-trash"></span>
-                                        </button>
-                                        <a target="_blank" href="{{ url('report/' . $user->id) }}"><span class="mai-print"></span></a>
+                                        @if ($kolomAksi)
+                                            <button @click="open = true" title="Hapus Data">
+                                                <span style="color: rgb(111, 64, 181)" class="mai-trash"></span>
+                                            </button>
+                                            <a target="_blank" href="{{ url('report/' . $user->id) }}"><span class="mai-print"></span></a>
+                                        @endif
                                     </th>
                                     <td>{{ $user->nim }}</td>
                                     <td>
@@ -215,7 +236,9 @@
                                             <span>{{ $user->nohp }}</span>
                                         @endif
                                     </td>
-                                    <td>{{ $user->tanggal_daftar }}</td>
+                                    @if ($kolomTanggal)
+                                        <td>{{ $user->tanggal_daftar }}</td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
