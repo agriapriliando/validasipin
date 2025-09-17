@@ -108,7 +108,7 @@ class Daftar extends Component
             'nina' => [
                 'nullable',
                 'string',
-                'max:20',
+                'size:21',
                 Rule::unique('users', 'nina')->ignore($nim, 'nim'),
             ],
         ]);
