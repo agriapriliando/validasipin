@@ -150,9 +150,9 @@ class Daftar extends Component
 
         $jumlah = User::count();
 
-        $jumlahNinaNull = User::whereNull('nina')->orWhere('nina', '')->where('status_eligible', 'Eligible')->count();
+        $jumlahNinaNull = User::where('status_eligible', 'Eligible')->whereNull('nina')->orWhere('nina', '')->count();
 
-        $jumlahNinaNotNull = User::whereNotNull('nina')->where('nina', '<>', '')->where('status_eligible', 'Eligible')->count();
+        $jumlahNinaNotNull = User::where('status_eligible', 'Eligible')->whereNotNull('nina')->where('nina', '<>', '')->count();
 
         $users = $users->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
