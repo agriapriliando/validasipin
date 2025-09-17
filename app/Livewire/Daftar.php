@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Tambahan;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -139,6 +140,16 @@ class Daftar extends Component
             $users->whereNull('nina')->orWhere('nina', '');
         }
 
+        $jumlahPerProdi = User::select('prodi', DB::raw('count(*) as total'))
+            ->groupBy('prodi')
+            ->get();
+
+        $jumlahEligible = User::select('status_eligible', DB::raw('count(*) as total'))
+            ->groupBy('status_eligible')
+            ->get();
+
+        $jumlah = User::count();
+
         $users = $users->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
 
@@ -154,6 +165,9 @@ class Daftar extends Component
 
         return view('livewire.daftar', [
             'users' => $users,
+            'jumlahPerProdi' => $jumlahPerProdi,
+            'jumlahEligible' => $jumlahEligible,
+            'jumlah' => $jumlah,
         ]);
     }
 }

@@ -4,6 +4,10 @@
             text-decoration: underline;
             cursor: pointer;
         }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
     <div class="row">
         <div class="col-12 mt-4">
@@ -77,23 +81,48 @@
             </div>
             <div x-data="{
                 copyTable() {
-                    let rows = Array.from(document.querySelectorAll('#tabel-users tr'));
-                    let text = rows.map(row => {
-                        // Ambil hanya data dari <td> (atau <th> kalau mau)
-                        return Array.from(row.querySelectorAll('th,td'))
-                            .map(cell => cell.innerText)
-                            .join('\t'); // Tab sebagai pemisah kolom
-                    }).join('\n'); // Enter sebagai pemisah baris
+                        let rows = Array.from(document.querySelectorAll('#tabel-users tr'));
+                        let text = rows.map(row => {
+                            // Ambil hanya data dari <td> (atau <th> kalau mau)
+                            return Array.from(row.querySelectorAll('th,td'))
+                                .map(cell => cell.innerText)
+                                .join('\t'); // Tab sebagai pemisah kolom
+                        }).join('\n'); // Enter sebagai pemisah baris
             
-                    // Copy ke clipboard
-                    navigator.clipboard.writeText(text).then(() => {
-                        alert('Data tabel berhasil disalin!');
-                    });
-                }
+                        // Copy ke clipboard
+                        navigator.clipboard.writeText(text).then(() => {
+                            alert('Data tabel berhasil disalin!');
+                        });
+                    },
+                    showStatistik: false,
+                    showStatistik: false
             }">
                 <button class="btn btn-success btn-sm m-2" @click="copyTable">
                     Copy Data
                 </button>
+                <button class="btn btn-success btn-sm m-2" @click="showStatistik = !showStatistik">
+                    Statistik
+                </button>
+                <div x-cloak x-show="showStatistik" class="border border-secondary rounded p-2" x-transition @click.outside="showStatistik = false">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            @foreach ($jumlahPerProdi as $row)
+                                <div>
+                                    {{ $row->prodi }} : {{ $row->total }} Orang
+                                </div>
+                            @endforeach
+                            <div>Jumlah : {{ $jumlah }} Orang</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <p class="fw-bold">STATUS ELIGIBLE</p>
+                            @foreach ($jumlahEligible as $row)
+                                <div>
+                                    {{ $row->status_eligible }} : {{ $row->total }} Orang
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                 <a class="btn btn-sm btn-primary m-2" target="_blank" href="https://docs.google.com/spreadsheets/d/1xttNvO8zF_FHAo70s25CYtVyepa_At0l_oWC5pCDTVE/edit?usp=sharing">Daftar Ajuan
                     Perubahan Data Mahasiswa</a>
                 @if (session('status'))
@@ -142,7 +171,7 @@
                                         <div style="display: inline;">
 
                                             <!-- Modal Konfirmasi -->
-                                            <div x-show="open" x-transition
+                                            <div x-cloak x-show="open" x-transition
                                                 style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 9999;">
                                                 <div style="background: #fff; padding: 20px 24px; border-radius: 6px; min-width: 220px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"
                                                     @click.away="open = false">
@@ -172,7 +201,7 @@
                                             </button>
 
                                             <!-- Modal Konfirmasi -->
-                                            <div x-show="open" x-transition
+                                            <div x-cloak x-show="open" x-transition
                                                 style="position: fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; z-index:9999;">
                                                 <div style="background:#fff; padding: 20px 24px; border-radius:6px; min-width:220px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.15);"
                                                     @click.away="open = false">
