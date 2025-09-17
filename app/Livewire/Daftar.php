@@ -137,7 +137,7 @@ class Daftar extends Component
         if ($this->filterNina === 'ada') {
             $users->where('status_eligible', 'Eligible')->whereNotNull('nina')->where('nina', '<>', '');
         } elseif ($this->filterNina === 'kosong') {
-            $users->where('status_eligible', 'Eligible')->whereNull('nina');
+            $users->where('status_eligible', 'Eligible')->whereNull('nina')->orWhere('nina', '');
         }
 
         $jumlahPerProdi = User::select('prodi', DB::raw('count(*) as total'))
