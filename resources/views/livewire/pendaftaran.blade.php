@@ -61,7 +61,7 @@
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <h1 class="mb-4">Layanan Validasi PIN</h1>
                 <p class="text-lg mb-5">
-                    Seluruh Calon Lulusan IAKN Palangka Raya <span class="text-primary font-weight-bold">WAJIB</span> Mengisi Formulir ini sebagai syarat mendapatkan <span
+                    Seluruh Calon Lulusan (S1, S2, S3) IAKN Palangka Raya <span class="text-primary font-weight-bold">WAJIB</span> Mengisi Formulir ini sebagai syarat mendapatkan <span
                         style="font-weight: bold">Nomor Ijazah
                         Nasional</span> (NINA)
                 </p>
@@ -92,8 +92,9 @@
                         @enderror
                     </div>
                     <div class="py-2">
-                        <label for="berkas" class="form-label">Upload Berita Acara Ujian Skripsi (PDF / Foto)</label>
+                        <label for="berkas" class="form-label">Upload Berita Acara Ujian (PDF / Foto)</label>
                         <input type="file" id="berkas" wire:model="berkas" class="form-control">
+                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi</small>
 
                         {{-- Pesan error --}}
                         @error('berkas')
