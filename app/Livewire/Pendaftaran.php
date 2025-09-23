@@ -100,7 +100,7 @@ class Pendaftaran extends Component
 
     use WithFileUploads;
 
-    #[Validate('required|file|mimes:jpg,jpeg,png')]
+    #[Validate('required|file|mimes:pdf.jpg,jpeg,png')]
     public $berkas;
 
     protected $messages = [
