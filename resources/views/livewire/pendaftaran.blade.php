@@ -162,6 +162,12 @@
             },
             preventClicks: true,
             preventClicksPropagation: true,
+            // ⏱ pengaturan waktu
+            autoplay: {
+                delay: 2000, // ganti ke 3000 ms = 3 detik
+                disableOnInteraction: false, // biar tetap jalan meskipun user klik/geser
+            },
+            speed: 600, // durasi transisi geser (ms)
         });
     </script>
 @endpush
