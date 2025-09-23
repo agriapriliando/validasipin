@@ -59,9 +59,11 @@
         </div>
         <div class="row align-items-center">
             <div class="col-lg-6 mt-4 wow fadeInUp">
-                <h1 class="mb-4">Layanan Penerbitan Surat Validasi PIN</h1>
+                <h1 class="mb-4">Layanan Validasi PIN</h1>
                 <p class="text-lg mb-5">
-                    Seluruh Calon Lulusan IAKN Palangka Raya Wajib Mengisi Formulir ini sebagai syarat mendapatkan <span style="font-weight: bold">Nomor Ijazah Nasional</span> (NINA)
+                    Seluruh Calon Lulusan IAKN Palangka Raya <span class="text-primary font-weight-bold">WAJIB</span> Mengisi Formulir ini sebagai syarat mendapatkan <span
+                        style="font-weight: bold">Nomor Ijazah
+                        Nasional</span> (NINA)
                 </p>
 
                 <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split ml-2">Cari Tahu NINA? <div class="fab"><span class="mai-question"></span></div></a>
