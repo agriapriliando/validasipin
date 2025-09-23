@@ -76,7 +76,9 @@
                 @if (session()->has('status'))
                     <div class="alert alert-warning">{{ session('status') }}</div>
                 @endif
-                <form wire:submit.prevent="cekData" enctype="multipart/form-data">
+                <form wire:submit.prevent="cekData" enctype="multipart/form-data" x-data="{ progress: 0 }" x-on:livewire-upload-start="progress = 0" x-on:livewire-upload-finish="progress = 0"
+                    x-on:livewire-upload-error="progress = 0" x-on:livewire-upload-progress="progress = $event.detail.progress">
+
                     <div class="py-2">
                         <input type="text" wire:model.live="nim" class="form-control @error('nim') is-invalid @enderror" placeholder="NIM Contoh : 1223233323">
                         <small class="form-text text-muted">*Masukan NIM Tanpa Menggunakan Titik</small>
@@ -84,6 +86,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="py-2">
                         <input type="text" wire:model.live="nohp" class="form-control @error('nohp') is-invalid @enderror" placeholder="Contoh 085249999999">
                         <small class="form-text text-muted">*Masukan No HP Whatsapp Aktif</small>
@@ -91,22 +94,21 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="py-2">
                         <label for="berkas" class="form-label">Upload Berita Acara Ujian (PDF / Foto)</label>
                         <input type="file" id="berkas" wire:model="berkas" class="form-control">
                         <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi</small>
-
-                        {{-- Pesan error --}}
                         @error('berkas')
                             <div class="text-danger mt-1 small">{{ $message }}</div>
                         @enderror
                     </div>
 
                     {{-- Progress bar upload --}}
-                    <div wire:loading wire:target="berkas" class="py-2">
+                    <div class="py-2" x-show="progress > 0">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%">
-                                Memeriksa Berkas
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="'width: ' + progress + '%'">
+                                <span x-text="progress + '%'"></span>
                             </div>
                         </div>
                     </div>
@@ -118,9 +120,13 @@
                             <img src="{{ $berkas->temporaryUrl() }}" alt="Preview" class="img-fluid rounded" width="200">
                         </div>
                     @endif
-                    <button type="submit" class="btn btn-primary rounded-pill mt-4" @if ($errors->any()) disabled @endif>SUBMIT</button>
-                    <button wire:loading wire:target="cekData" class="btn btn-primary rounded-pill mt-4" @if ($errors->any()) disabled @endif>Tunggu Proses Submit, Kompress
-                        Berkas</button>
+
+                    <button type="submit" class="btn btn-primary rounded-pill mt-4" :disabled="progress > 0 || {{ $errors->any() ? 'true' : 'false' }}">
+                        SUBMIT
+                    </button>
+                    <button wire:loading wire:target="cekData" class="btn btn-primary rounded-pill mt-4" @if ($errors->any()) disabled @endif>
+                        Tunggu Proses Submit, Kompress Berkas
+                    </button>
                 </form>
             </div>
         </div>
