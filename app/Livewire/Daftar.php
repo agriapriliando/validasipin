@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Tambahan;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -81,8 +82,22 @@ class Daftar extends Component
 
     public function delete($nim)
     {
-        User::whereNim($nim)->delete();
-        session()->flash('status', 'Data ' . $nim . ' berhasil dihapus!');
+        // Ambil user berdasarkan NIM
+        $user = User::where('nim', $nim)->first();
+
+        if ($user) {
+            // Jika ada berkas, hapus file fisik di storage/public
+            if ($user->berkas && Storage::disk('public')->exists($user->berkas)) {
+                Storage::disk('public')->delete($user->berkas);
+            }
+
+            // Hapus user dari database
+            $user->delete();
+
+            session()->flash('status', 'Data ' . $nim . ' berhasil dihapus!');
+        } else {
+            session()->flash('status', 'Data ' . $nim . ' tidak ditemukan!');
+        }
     }
 
     public function startEditKeterangan($nim, $keterangan)
