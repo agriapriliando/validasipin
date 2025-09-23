@@ -127,19 +127,28 @@ class Pendaftaran extends Component
 
             // jika masih > 1000KB, turunkan
             if ($sizeKB > 1000) {
-                $compressed = $image->encodeByExtension('jpg', quality: 40);
+                $compressed = $image->encodeByExtension('jpg', quality: 50);
             }
 
             // jika masih > 1000KB, turunkan
             if ($sizeKB > 1000) {
-                $compressed = $image->encodeByExtension('jpg', quality: 40);
+                $compressed = $image->encodeByExtension('jpg', quality: 50);
             }
 
             // jika masih > 1000KB, turunkan
             if ($sizeKB > 1000) {
-                $compressed = $image->encodeByExtension('jpg', quality: 40);
+                $compressed = $image->encodeByExtension('jpg', quality: 50);
             }
 
+            // jika masih > 1000KB, turunkan
+            if ($sizeKB > 1000) {
+                $compressed = $image->encodeByExtension('jpg', quality: 50);
+            }
+
+            // jika masih > 1000KB, turunkan
+            if ($sizeKB > 1000) {
+                $compressed = $image->encodeByExtension('jpg', quality: 50);
+            }
             Storage::disk('public')->put("berkas/$fileName", $compressed);
             $path = "berkas/$fileName";
         } else {

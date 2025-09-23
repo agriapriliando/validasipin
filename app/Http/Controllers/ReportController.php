@@ -77,6 +77,16 @@ class ReportController extends Controller
                 $compressed = (string) $image->encodeByExtension('jpg', quality: 50);
             }
 
+            // Jika masih > 1000KB, turunkan lagi ke 50
+            if ((strlen($compressed) / 1024) > 1000) {
+                $compressed = (string) $image->encodeByExtension('jpg', quality: 50);
+            }
+
+            // Jika masih > 1000KB, turunkan lagi ke 50
+            if ((strlen($compressed) / 1024) > 1000) {
+                $compressed = (string) $image->encodeByExtension('jpg', quality: 50);
+            }
+
             Storage::disk('public')->put("berkas/$fileName", $compressed);
             $path = "berkas/$fileName";
         } else {
