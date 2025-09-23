@@ -113,14 +113,6 @@
                         </div>
                     </div>
 
-                    {{-- Preview jika file berupa gambar --}}
-                    @if ($berkas && in_array($berkas->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'webp']))
-                        <div class="mt-3">
-                            <p class="fw-bold">Preview:</p>
-                            <img src="{{ $berkas->temporaryUrl() }}" alt="Preview" class="img-fluid rounded" width="200">
-                        </div>
-                    @endif
-
                     <button type="submit" class="btn btn-primary rounded-pill mt-4" :disabled="progress > 0 || {{ $errors->any() ? 'true' : 'false' }}">
                         SUBMIT
                     </button>
