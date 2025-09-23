@@ -90,7 +90,7 @@
                         @enderror
                     </div>
                     <div class="py-2">
-                        <label for="berkas" class="form-label">Upload Berkas (PDF / Foto)</label>
+                        <label for="berkas" class="form-label">Upload Berita Acara Ujian Skripsi (PDF / Foto)</label>
                         <input type="file" id="berkas" wire:model="berkas" class="form-control">
 
                         {{-- Pesan error --}}
