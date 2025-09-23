@@ -88,7 +88,7 @@
                                 .map(cell => cell.innerText)
                                 .join('\t'); // Tab sebagai pemisah kolom
                         }).join('\n'); // Enter sebagai pemisah baris
-            
+
                         // Copy ke clipboard
                         navigator.clipboard.writeText(text).then(() => {
                             alert('Data tabel berhasil disalin!');
@@ -260,7 +260,7 @@
                                             <small class="text-danger d-block">{{ $message }}</small>
                                         @enderror
                                     </td>
-                                    <td>{!! $user->berkas == '' ? '-' : '<a href="' . $user->berkas . '" target="_blank">Ada</a>' !!}</td>
+                                    <td>{!! $user->berkas == '' ? '-' : '<a href="storage/' . $user->berkas . '" target="_blank">Ada</a>' !!}</td>
                                     <td>{{ $user->prodi_singkat }}</td>
                                     <td>
                                         @if ($user->status_eligible == 'Eligible')

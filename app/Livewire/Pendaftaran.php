@@ -88,7 +88,7 @@ class Pendaftaran extends Component
                 ]);
 
                 // insert berkas mahasiswa ke folder dan database
-                $this->saveberkas($this->nim, $this->nim . '_' . $data['nama_mahasiswa'] . '_' . date('Ymd_His'));
+                $this->saveberkas($data['id_mahasiswa'], $this->nim . '_' . $data['nama_mahasiswa'] . '_' . date('Ymd_His'));
 
                 return redirect('report/' . $datamhs->id);
             } else {
@@ -109,7 +109,7 @@ class Pendaftaran extends Component
         'berkas.mimes'    => 'File hanya boleh dalam format PDF, JPG, JPEG, PNG, atau WEBP.',
     ];
 
-    public function saveberkas($nim, $nama_berkas)
+    public function saveberkas($id, $nama_berkas)
     {
         $extension = strtolower($this->berkas->getClientOriginalExtension());
         $fileName = $nama_berkas . '.' . $extension;
@@ -147,7 +147,7 @@ class Pendaftaran extends Component
         }
 
         // Update database
-        User::where('nim', $nim)->update(['berkas' => $path]);
+        User::where('id_mahasiswa', $id)->update(['berkas' => $path]);
     }
     public function render()
     {
