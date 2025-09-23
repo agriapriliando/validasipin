@@ -67,8 +67,13 @@ class ReportController extends Controller
             // Simpan ke JPG kualitas 70
             $compressed = (string) $image->encodeByExtension('jpg', quality: 70);
 
-            // Jika masih > 500KB, turunkan lagi ke 50
-            if ((strlen($compressed) / 1024) > 500) {
+            // Jika masih > 1000KB, turunkan lagi ke 50
+            if ((strlen($compressed) / 1024) > 1000) {
+                $compressed = (string) $image->encodeByExtension('jpg', quality: 50);
+            }
+
+            // Jika masih > 1000KB, turunkan lagi ke 50
+            if ((strlen($compressed) / 1024) > 1000) {
                 $compressed = (string) $image->encodeByExtension('jpg', quality: 50);
             }
 

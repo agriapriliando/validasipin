@@ -151,6 +151,12 @@
             text-decoration: underline;
             cursor: pointer;
         }
+
+        .text-danger {
+            color: red;
+            font-weight: bold;
+            /* opsional, biar lebih jelas */
+        }
     </style>
 </head>
 
@@ -182,39 +188,39 @@
             @endif
             <h2 style="text-align: center;">SURAT VALIDASI <br>PIN (PENOMORAN IJAZAH NASIONAL) <br>INSTITUT AGAMA
                 KRISTEN NEGERI PALANGKA RAYA</h2>
-            @if ($mhs->status_eligible != 'Eligible')
-                <div>
-                    <div style="margin-top: 15px; margin-bottom: 15px">
-                        {{-- Form upload --}}
-                        <form action="{{ url('update-berkas/' . $mhs->nim) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('POST')
+            <div class="no-print">
+                <div style="margin-top: 15px; margin-bottom: 15px">
+                    {{-- Form upload --}}
+                    <form action="{{ url('update-berkas/' . $mhs->nim) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
 
-                            <div class="mb-3">
-                                <label for="berkas" class="form-label">Upload Berita Acara (PDF / Foto)</label>
-                                <input type="file" name="berkas" id="berkas" class="form-control" required>
-                                <br>
-                                <small>Pilih Upload Untuk Merubah Berita Acara</small>
+                        <div class="mb-3">
+                            <label for="berkas" class="form-label">Upload Berita Acara Ujian (PDF / Foto)</label><br>
+                            <input type="file" name="berkas" id="berkas" class="form-control" required>
 
-                                {{-- Error message --}}
-                                @error('berkas')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            {{-- Error message --}}
+                            @error('berkas')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                            <button type="submit" class="btn btn-primary mt-3">Simpan Berkas</button>
-                            <div style="margin-top: 10px;">
-                                {{-- Tampilkan berkas lama jika ada --}}
-                                @if ($mhs->berkas)
-                                    <a href="{{ asset('storage/' . $mhs->berkas) }}" target="_blank" class="btn btn-sm btn-info">
-                                        Lihat Berkas Berita Acara Anda
-                                    </a>
-                                @endif
-                            </div>
-                        </form>
-                    </div>
-                    <!-- <img class="responsive" src="#" alt="kop_surat"> -->
+                        <button type="submit" class="btn btn-primary mt-3">Unggah / Simpan</button>
+                        <div style="margin-top: 10px;">
+                            {{-- Tampilkan berkas lama jika ada --}}
+                            @if ($mhs->berkas)
+                                <a href="{{ asset('storage/' . $mhs->berkas) }}" target="_blank" class="btn btn-sm btn-info">
+                                    Lihat Berkas Berita Acara
+                                </a>
+                            @else
+                                <span class="text-danger">Anda Belum Unggah Berita Acara Ujian, Silahkan Unggah</span>
+                            @endif
+                        </div>
+                    </form>
                 </div>
+                <!-- <img class="responsive" src="#" alt="kop_surat"> -->
+            </div>
+            @if ($mhs->status_eligible != 'Eligible')
             @endif
             @if ($mhs->status_eligible == 'Eligible')
                 <p>Saya yang bertanda tangan di bawah ini :</p>
