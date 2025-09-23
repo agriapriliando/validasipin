@@ -125,8 +125,18 @@ class Pendaftaran extends Component
             $compressed = (string) $image->encodeByExtension('jpg', quality: 60);
             $sizeKB = strlen($compressed) / 1024;
 
-            // jika masih > 500KB, turunkan sekali lagi
-            if ($sizeKB > 500) {
+            // jika masih > 1000KB, turunkan
+            if ($sizeKB > 1000) {
+                $compressed = $image->encodeByExtension('jpg', quality: 40);
+            }
+
+            // jika masih > 1000KB, turunkan
+            if ($sizeKB > 1000) {
+                $compressed = $image->encodeByExtension('jpg', quality: 40);
+            }
+
+            // jika masih > 1000KB, turunkan
+            if ($sizeKB > 1000) {
                 $compressed = $image->encodeByExtension('jpg', quality: 40);
             }
 
