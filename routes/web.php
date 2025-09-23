@@ -7,10 +7,7 @@ use App\Livewire\Pendaftaran;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::any('{any}', function () {
-    return "Aplikasi Validasi PIN sedang dalam perbaikan. Terima kasih.";
-})->where('any', '.*');
-// Route::get('/', Pendaftaran::class)->name('pendaftaran');
+Route::get('/', Pendaftaran::class)->name('pendaftaran');
 
 Route::get('report/{id}', [ReportController::class, 'report']);
 Route::get('qrcode/{id}', [ReportController::class, 'qrcode']);
@@ -36,3 +33,7 @@ Route::get('delete/users/{tahun}', function ($tahun) {
     session()->flash('status', "Semua data Tahun $tahun berhasil dihapus!");
     return redirect('/daftar');
 })->middleware(CeksessionMiddleware::class);
+
+// Route::any('{any}', function () {
+//     return "Aplikasi Validasi PIN sedang dalam perbaikan. Terima kasih.";
+// })->where('any', '.*');
