@@ -7,6 +7,9 @@ use App\Livewire\Pendaftaran;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return "Aplikasi Validasi PIN sedang dalam perbaikan. Terima kasih.";
+});
 Route::get('/', Pendaftaran::class)->name('pendaftaran');
 
 Route::get('report/{id}', [ReportController::class, 'report']);
