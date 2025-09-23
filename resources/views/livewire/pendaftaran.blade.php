@@ -46,6 +46,11 @@
                                 <img class="img-fluid" src="{{ asset('assets/02 contoh surat dan berita acara.jpg') }}" alt="">
                             </a>
                         </div>
+                        <div class="swiper-slide">
+                            <a href="{{ asset('assets/02 contoh surat dan berita acara.jpg') }}" target="_blank">
+                                <img class="img-fluid" src="{{ asset('assets/03 Pengumuman PISN.jpg') }}" alt="">
+                            </a>
+                        </div>
                     </div>
                     <!-- If we need navigation buttons -->
                     <div class="swiper-button-prev"></div>
@@ -57,7 +62,7 @@
 
             </div>
         </div>
-        <div class="row align-items-center">
+        <div class="row align-items-center mb-3">
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <h1 class="mb-4">Layanan Validasi PIN</h1>
                 <p class="text-lg mb-5">
@@ -66,8 +71,9 @@
                         Nasional</span> (NINA)
                 </p>
 
-                <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split ml-2">Cari Tahu NINA? <div class="fab"><span class="mai-question"></span></div></a>
-                <a target="_blank" href="https://wa.me/6282352127683" class="btn btn-outline border text-secondary">Tanya Operator Kampus?</a>
+                <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split mt-2">Cari Tahu NINA? <div class="fab"><span class="mai-question"></span></div></a>
+                <a target="_blank" href="https://wa.me/6282352127683" class="btn btn-outline border text-secondary mt-2">Tanya Operator Kampus?</a>
+                <a href="#chart" class="btn btn-outline border text-secondary mt-2">Lihat Grafik</a>
             </div>
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <div class="subhead">Formulir</div>
@@ -122,6 +128,12 @@
                 </form>
             </div>
         </div>
+        <hr id="chart">
+        <div class="row">
+            <div class="col-12 wow fadeInUp">
+                <div id="charthome"></div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -151,6 +163,313 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
 @endpush
 
+@push('chartjs')
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <!-- optional -->
+    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil tanggal hari ini
+            let today = new Date();
+            let options = {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            };
+            let formattedDate = today.toLocaleDateString('id-ID', options);
+
+            Highcharts.chart('charthome', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Jumlah Isian Form Berdasarkan Program Studi'
+                },
+                subtitle: {
+                    text: 'Data ini Berdasarkan Mahasiswa yang telah mengisi Formulir PIN (per ' + formattedDate + ')'
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    title: {
+                        text: 'Prodi'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Jumlah Mahasiswa'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:.f} Orang'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: ' +
+                        '<b>{point.y:.f} Orang'
+                },
+
+                series: [{
+                    name: 'Jumlah',
+                    colorByPoint: true,
+                    data: @json($seriesData) // kirim data dari Livewire ke JS
+                }],
+                // drilldown: {
+                //     breadcrumbs: {
+                //         position: {
+                //             align: 'right'
+                //         }
+                //     },
+                //     series: [{
+                //             name: 'Chrome',
+                //             id: 'Chrome',
+                //             data: [
+                //                 [
+                //                     'v65.0',
+                //                     0.1
+                //                 ],
+                //                 [
+                //                     'v64.0',
+                //                     1.3
+                //                 ],
+                //                 [
+                //                     'v63.0',
+                //                     53.02
+                //                 ],
+                //                 [
+                //                     'v62.0',
+                //                     1.4
+                //                 ],
+                //                 [
+                //                     'v61.0',
+                //                     0.88
+                //                 ],
+                //                 [
+                //                     'v60.0',
+                //                     0.56
+                //                 ],
+                //                 [
+                //                     'v59.0',
+                //                     0.45
+                //                 ],
+                //                 [
+                //                     'v58.0',
+                //                     0.49
+                //                 ],
+                //                 [
+                //                     'v57.0',
+                //                     0.32
+                //                 ],
+                //                 [
+                //                     'v56.0',
+                //                     0.29
+                //                 ],
+                //                 [
+                //                     'v55.0',
+                //                     0.79
+                //                 ],
+                //                 [
+                //                     'v54.0',
+                //                     0.18
+                //                 ],
+                //                 [
+                //                     'v51.0',
+                //                     0.13
+                //                 ],
+                //                 [
+                //                     'v49.0',
+                //                     2.16
+                //                 ],
+                //                 [
+                //                     'v48.0',
+                //                     0.13
+                //                 ],
+                //                 [
+                //                     'v47.0',
+                //                     0.11
+                //                 ],
+                //                 [
+                //                     'v43.0',
+                //                     0.17
+                //                 ],
+                //                 [
+                //                     'v29.0',
+                //                     0.26
+                //                 ]
+                //             ]
+                //         },
+                //         {
+                //             name: 'Firefox',
+                //             id: 'Firefox',
+                //             data: [
+                //                 [
+                //                     'v58.0',
+                //                     1.02
+                //                 ],
+                //                 [
+                //                     'v57.0',
+                //                     7.36
+                //                 ],
+                //                 [
+                //                     'v56.0',
+                //                     0.35
+                //                 ],
+                //                 [
+                //                     'v55.0',
+                //                     0.11
+                //                 ],
+                //                 [
+                //                     'v54.0',
+                //                     0.1
+                //                 ],
+                //                 [
+                //                     'v52.0',
+                //                     0.95
+                //                 ],
+                //                 [
+                //                     'v51.0',
+                //                     0.15
+                //                 ],
+                //                 [
+                //                     'v50.0',
+                //                     0.1
+                //                 ],
+                //                 [
+                //                     'v48.0',
+                //                     0.31
+                //                 ],
+                //                 [
+                //                     'v47.0',
+                //                     0.12
+                //                 ]
+                //             ]
+                //         },
+                //         {
+                //             name: 'Internet Explorer',
+                //             id: 'Internet Explorer',
+                //             data: [
+                //                 [
+                //                     'v11.0',
+                //                     6.2
+                //                 ],
+                //                 [
+                //                     'v10.0',
+                //                     0.29
+                //                 ],
+                //                 [
+                //                     'v9.0',
+                //                     0.27
+                //                 ],
+                //                 [
+                //                     'v8.0',
+                //                     0.47
+                //                 ]
+                //             ]
+                //         },
+                //         {
+                //             name: 'Safari',
+                //             id: 'Safari',
+                //             data: [
+                //                 [
+                //                     'v11.0',
+                //                     3.39
+                //                 ],
+                //                 [
+                //                     'v10.1',
+                //                     0.96
+                //                 ],
+                //                 [
+                //                     'v10.0',
+                //                     0.36
+                //                 ],
+                //                 [
+                //                     'v9.1',
+                //                     0.54
+                //                 ],
+                //                 [
+                //                     'v9.0',
+                //                     0.13
+                //                 ],
+                //                 [
+                //                     'v5.1',
+                //                     0.2
+                //                 ]
+                //             ]
+                //         },
+                //         {
+                //             name: 'Edge',
+                //             id: 'Edge',
+                //             data: [
+                //                 [
+                //                     'v16',
+                //                     2.6
+                //                 ],
+                //                 [
+                //                     'v15',
+                //                     0.92
+                //                 ],
+                //                 [
+                //                     'v14',
+                //                     0.4
+                //                 ],
+                //                 [
+                //                     'v13',
+                //                     0.1
+                //                 ]
+                //             ]
+                //         },
+                //         {
+                //             name: 'Opera',
+                //             id: 'Opera',
+                //             data: [
+                //                 [
+                //                     'v50.0',
+                //                     0.96
+                //                 ],
+                //                 [
+                //                     'v49.0',
+                //                     0.82
+                //                 ],
+                //                 [
+                //                     'v12.1',
+                //                     0.14
+                //                 ]
+                //             ]
+                //         }
+                //     ]
+                // },
+                exporting: {
+                    chartOptions: {
+                        chart: {
+                            style: {
+                                fontFamily: 'monospace'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+@endpush
+
 @push('sliderjs')
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
     <script>
@@ -165,10 +484,14 @@
             preventClicksPropagation: true,
             // ⏱ pengaturan waktu
             autoplay: {
-                delay: 2000, // ganti ke 3000 ms = 3 detik
+                delay: 2500, // ganti ke 3000 ms = 3 detik
                 disableOnInteraction: false, // biar tetap jalan meskipun user klik/geser
             },
-            speed: 600, // durasi transisi geser (ms)
+            speed: 600, // durasi transisi geser (ms),
+            scrollbar: {
+                el: '.swiper-scrollbar',
+                draggable: true,
+            },
         });
     </script>
 @endpush

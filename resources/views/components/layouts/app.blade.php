@@ -118,6 +118,7 @@
     <script src="{{ asset('') }}assets/js/theme.js"></script>
 
     @stack('sliderjs')
+    @stack('chartjs')
 
 </body>
 

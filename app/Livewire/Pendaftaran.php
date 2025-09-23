@@ -7,6 +7,7 @@ use App\Models\Optional;
 use App\Models\Tambahan;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
@@ -24,6 +25,25 @@ class Pendaftaran extends Component
     #[Validate('required', message: 'No HP harus diisi')]
     #[Validate('numeric', message: 'Harus Angka')]
     public $nohp = '';
+
+    public $seriesData = [];
+
+    public function mount()
+    {
+        // Ambil jumlah mahasiswa per prodi
+        $result = User::select('prodi', DB::raw('COUNT(*) as total'))
+            ->groupBy('prodi')
+            ->get();
+
+        // Ubah ke format Highcharts
+        $this->seriesData = $result->map(function ($row) {
+            return [
+                'name'      => $row->prodi ?? 'Tidak Ada Prodi',
+                'y'         => (int) $row->total,
+                'drilldown' => $row->prodi, // bisa dipakai untuk drilldown detail
+            ];
+        });
+    }
 
     public function cekData()
     {
