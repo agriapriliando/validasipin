@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'password',
+        'berkas',
         'id_mahasiswa',
         'nama_mahasiswa',
         'nim',

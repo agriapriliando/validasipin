@@ -149,6 +149,7 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Keterangan</th>
                                 <th scope="col">NINA</th>
+                                <th scope="col">BA</th>
                                 <th scope="col">Prodi</th>
                                 <th scope="col">No HP</th>
                                 @if ($kolomTanggal)
@@ -259,6 +260,7 @@
                                             <small class="text-danger d-block">{{ $message }}</small>
                                         @enderror
                                     </td>
+                                    <td>{!! $user->berkas == '' ? '-' : '<a href="' . $user->berkas . '" target="_blank">Ada</a>' !!}</td>
                                     <td>{{ $user->prodi_singkat }}</td>
                                     <td>
                                         @if ($user->status_eligible == 'Eligible')

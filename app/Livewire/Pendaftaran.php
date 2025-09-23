@@ -7,8 +7,12 @@ use App\Models\Optional;
 use App\Models\Tambahan;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use Livewire\WithFileUploads;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class Pendaftaran extends Component
 {
@@ -18,6 +22,7 @@ class Pendaftaran extends Component
     public $nim = '';
 
     #[Validate('required', message: 'No HP harus diisi')]
+    #[Validate('numeric', message: 'Harus Angka')]
     public $nohp = '';
 
     public function cekData()
@@ -32,7 +37,6 @@ class Pendaftaran extends Component
             return redirect('report/' . $mhs->id);
         } else {
             // Format NIM lama
-            // return redirect('/');
             if (substr($nim, 0, 2) < 20) {
                 if ($nim == "1902111739") {
                     $nim = "19.02.11.17.39";
@@ -51,7 +55,7 @@ class Pendaftaran extends Component
             }
 
             if ($data['jumlah'] > 0) {
-                // cek NIM jika Mei Minarni
+                // cek NIM jika ada Mei Minarni
                 if ($data['data'][0]['nipd'] != '2002111922') {
                     // cek status keluar mahasiswa
                     if ($data['data'][0]['id_status_mahasiswa'] != null) {
@@ -72,7 +76,7 @@ class Pendaftaran extends Component
                 $datamhs = User::create([
                     'nim' => $this->nim,
                     'name' => $this->nim,
-                    'password' => bcrypt($this->nim),
+                    'password' => bcrypt('123456'),
                     'id_mahasiswa' => $data['id_mahasiswa'],
                     'nama_mahasiswa' => $data['nama_mahasiswa'],
                     'tempat_lahir' => $datadetail['tempat_lahir'],
@@ -82,12 +86,58 @@ class Pendaftaran extends Component
                     'nohp' => substr($this->nohp, 0, 2) == '62' ? '0' . substr($this->nohp, 1) : $this->nohp,
                     'status_eligible' => 'Belum Cek',
                 ]);
+
+                // insert berkas mahasiswa ke folder dan database
+                $this->saveberkas($this->nim, $this->nim . '_' . $data['nama_mahasiswa'] . '_' . date('Ymd_His'));
+
                 return redirect('report/' . $datamhs->id);
             } else {
                 session()->flash('status', 'NIM Anda : ' . $nim . ' Tidak Terdaftar di PDDikti, Coba Kembali');
                 return;
             }
         }
+    }
+
+    use WithFileUploads;
+
+    #[Validate('required|file|mimes:jpg,jpeg,png')]
+    public $berkas;
+
+    protected $messages = [
+        'berkas.required' => 'File wajib diupload.',
+        'berkas.file'     => 'Input harus berupa file.',
+        'berkas.mimes'    => 'File hanya boleh dalam format PDF, JPG, JPEG, PNG, atau WEBP.',
+    ];
+
+    public function saveberkas($nim, $nama_berkas)
+    {
+        $extension = strtolower($this->berkas->getClientOriginalExtension());
+        $fileName = $nama_berkas . '.' . $extension;
+        $sizeKB = $this->berkas->getSize() / 1024;
+
+        // Pakai ImageManager driver GD (bisa juga 'imagick' kalau terinstall)
+        $manager = new ImageManager(new Driver());
+
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp']) && $sizeKB > 500) {
+            $image = $manager->read($this->berkas->getRealPath());
+
+            // langsung set kualitas 60
+            $compressed = (string) $image->encodeByExtension('jpg', quality: 60);
+            $sizeKB = strlen($compressed) / 1024;
+
+            // jika masih > 500KB, turunkan sekali lagi
+            if ($sizeKB > 500) {
+                $compressed = $image->encodeByExtension('jpg', quality: 40);
+            }
+
+            Storage::disk('public')->put("berkas/$fileName", $compressed);
+            $path = "berkas/$fileName";
+        } else {
+            $path = $this->berkas->storeAs('berkas', $fileName, 'public');
+        }
+
+        // Update database
+        User::where('nim', $nim)->update(['berkas' => $path]);
     }
     public function render()
     {

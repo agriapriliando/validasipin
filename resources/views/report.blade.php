@@ -163,7 +163,7 @@
     <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
     @if ($mhs == null)
         <section class="sheet padding-10mm">
-            <h2 style="text-align: center;">FORM VALIDASI <br>PIN (PENOMORAN IJAZAH NASIONAL) <br>INSTITUT AGAMA
+            <h2 style="text-align: center;">SURAT VALIDASI <br>PIN (PENOMORAN IJAZAH NASIONAL) <br>INSTITUT AGAMA
                 KRISTEN NEGERI PALANGKA RAYA</h2>
             <h2 style="text-align: center;">Dokumen Tidak Ditemukan, Silahkan Cek Kembali Kode Dokumen Anda</h2>
         </section>
@@ -176,34 +176,74 @@
                 <button id="buttoncetak" class="button-87 noprint absolute" onclick="window.print()">Cetak</button>
             @else
                 <button type="button" class="button-87" role="button" disabled>Belum Bisa Cetak</button>
+                <p style="text-align: center;">Anda bisa mencetak Surat setelah dinyatakan ELIGIBLE<br>
+                    Silahkan Cek Data Anda, jika ada perbaikan silahkan mengisi <a href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
+                </p>
             @endif
-            <h2 style="text-align: center;">FORM VALIDASI <br>PIN (PENOMORAN IJAZAH NASIONAL) <br>INSTITUT AGAMA
+            <h2 style="text-align: center;">SURAT VALIDASI <br>PIN (PENOMORAN IJAZAH NASIONAL) <br>INSTITUT AGAMA
                 KRISTEN NEGERI PALANGKA RAYA</h2>
-            <div>
-                <!-- <img class="responsive" src="#" alt="kop_surat"> -->
-            </div>
-            <p>Saya yang bertanda tangan di bawah ini :</p>
-            <table class="customTable" style="width:100%">
-                <tbody>
-                    {{-- <tr style="padding-top: 100px;">
+            @if ($mhs->status_eligible != 'Eligible')
+                <div>
+                    <div style="margin-top: 15px; margin-bottom: 15px">
+                        {{-- Form upload --}}
+                        <form action="{{ url('update-berkas/' . $mhs->nim) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+
+                            <div class="mb-3">
+                                <label for="berkas" class="form-label">Upload Berita Acara (PDF / Foto)</label>
+                                <input type="file" name="berkas" id="berkas" class="form-control" required>
+                                <br>
+                                <small>Pilih Upload Untuk Merubah Berita Acara</small>
+
+                                {{-- Error message --}}
+                                @error('berkas')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mt-3">Simpan Berkas</button>
+                            <div style="margin-top: 10px;">
+                                {{-- Tampilkan berkas lama jika ada --}}
+                                @if ($mhs->berkas)
+                                    <a href="{{ asset('storage/' . $mhs->berkas) }}" target="_blank" class="btn btn-sm btn-info">
+                                        Lihat Berkas Berita Acara Anda
+                                    </a>
+                                @endif
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <img class="responsive" src="#" alt="kop_surat"> -->
+                </div>
+            @endif
+            @if ($mhs->status_eligible == 'Eligible')
+                <p>Saya yang bertanda tangan di bawah ini :</p>
+                <table class="customTable" style="width:100%">
+                    <tbody>
+                        {{-- <tr style="padding-top: 100px;">
                         <td style="width: 150px;">Nama</td>
                         <td>: Agri Apriliando, ST </td>
                     </tr> --}}
-                    <tr style="padding-top: 100px;">
-                        <td style="width: 150px;">Nama</td>
-                        <td>: Chrismas Debianto, S.Pd </td>
-                    </tr>
-                    <tr>
-                        <td>Jabatan</td>
-                        <td>: Operator PISN </td>
-                    </tr>
-                    <tr>
-                        <td>Unit Kerja</td>
-                        <td>: UPT TIPD IAKN Palangka Raya </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 20px 0;" colspan="2">Dengan ini menerangkan bahwa :</td>
-                    </tr>
+                        <tr style="padding-top: 100px;">
+                            <td style="width: 150px;">Nama</td>
+                            <td>: Chrismas Debianto, S.Pd </td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>: Operator PISN </td>
+                        </tr>
+                        <tr>
+                            <td>Unit Kerja</td>
+                            <td>: UPT TIPD IAKN Palangka Raya </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 20px 0;" colspan="2">Dengan ini menerangkan bahwa :</td>
+                        </tr>
+                    </tbody>
+                </table>
+            @endif
+            <table class="customTable" style="width:100%">
+                <tbody>
                     <tr>
                         <td>Nama</td>
                         <td>: {{ $mhs->nama_mahasiswa }} </td>
@@ -225,7 +265,7 @@
                         <td>: {{ $mhs->prodi }} </td>
                     </tr>
                     <tr x-data="{ edit: false }">
-                        <td>No HP</td>
+                        <td>No HP (Whatsapp Aktif)</td>
                         <td x-show="!edit">: {{ $mhs->nohp }} <button class="no-print" @click="edit = true" class="btnedit">Edit</button> </td>
                         <td x-show="edit">
                             <form action="{{ url('savenohp/' . $mhs->nim) }}" method="POST">
@@ -267,26 +307,26 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td id="qrcode" data-url="{{ url('qrcode/' . $mhs->id) }}">
-                            @if ($mhs->status_eligible == 'Eligible')
+                        @if ($mhs->status_eligible == 'Eligible')
+                            <td id="qrcode" data-url="{{ url('qrcode/' . $mhs->id) }}">
                                 <div id="img-div"></div>
-                            @endif
-                            @if ($mhs->status_eligible != 'Eligible')
-                                <p style="font-weight: bold;">QRCODE Tampil Tersedia <br>
-                                    Setelah Status Dinyatakan ELIGIBLE</p>
-                            @endif
-                        </td>
+                            </td>
+                        @endif
+                        @if ($mhs->status_eligible != 'Eligible')
+                            <td id="qrcode">
+                                <p style="font-weight: bold;">QRCODE Belum Tersedia</p>
+                            </td>
+                        @endif
                     </tr>
                 </tbody>
             </table>
             <div style="margin-top: 40px; font-style: italic; color: #ad0000;">
                 <p>Kode Dokumen : {{ $mhs->id }}</p>
-                <a style="color: #ad0000;" href="#">Dicetak pada {{ \Carbon\Carbon::now()->translatedFormat('j F Y H:i') }} melalui www.validasipin.tipdiaknpky.com </a>
+                <a style="color: #ad0000;" href="#">Dicetak pada {{ \Carbon\Carbon::now()->translatedFormat('j F Y H:i') }} melalui www.pin.iaknpky.ac.id </a>
             </div>
             <div style="margin-top: 15px">
                 <!-- <img class="responsive" src="#" alt="kop_surat"> -->
             </div>
-
         </section>
     @endif
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.14.9/cdn.min.js"></script>
