@@ -66,9 +66,8 @@
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <h1 class="mb-4">Layanan Validasi PIN</h1>
                 <p class="text-lg mb-5">
-                    Seluruh Calon Lulusan (S1, S2, S3) IAKN Palangka Raya <span class="text-primary font-weight-bold">WAJIB</span> Mengisi Formulir ini sebagai syarat mendapatkan <span
-                        style="font-weight: bold">Nomor Ijazah
-                        Nasional</span> (NINA)
+                    Seluruh Mahasiswa (S1, S2, S3) IAKN Palangka Raya yang telah mengikuti Ujian (Skripsi/Tesis/Disertasi) <span class="text-primary font-weight-bold">WAJIB</span> Mengisi Formulir PIN
+                    sebagai syarat mendapatkan <span class="text-primary font-weight-bold">Nomor Ijazah Nasional (NINA)</span>
                 </p>
 
                 <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split mt-2">Cari Tahu NINA? <div class="fab"><span class="mai-question"></span></div></a>
@@ -102,9 +101,10 @@
                     </div>
 
                     <div class="py-2">
-                        <label for="berkas" class="form-label">Upload Berita Acara Ujian (PDF / Foto)</label>
+                        <label for="berkas" class="form-label text-muted">Upload Berita Acara Ujian (PDF / Foto)</label>
                         <input type="file" id="berkas" wire:model="berkas" class="form-control">
-                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi</small>
+                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi | Hanya Halaman Depan, yang mencantumkan tanggal dan nilai</small>
+                        <a class="m-0 p-0 text-muted" style="font-size: 14px" href="{{ asset('assets/02 contoh surat dan berita acara.jpg') }}" target="_blank">Lihat Contoh Berita Acara</a>
                         @error('berkas')
                             <div class="text-danger mt-1 small">{{ $message }}</div>
                         @enderror
@@ -119,10 +119,10 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary rounded-pill mt-4" :disabled="progress > 0 || {{ $errors->any() ? 'true' : 'false' }}">
-                        SUBMIT
+                    <button type="submit" class="btn btn-primary rounded-pill" :disabled="progress > 0 || {{ $errors->any() ? 'true' : 'false' }}">
+                        S U B M I T
                     </button>
-                    <button wire:loading wire:target="cekData" class="btn btn-primary rounded-pill mt-4" @if ($errors->any()) disabled @endif>
+                    <button wire:loading wire:target="cekData" class="btn btn-primary rounded-pill" @if ($errors->any()) disabled @endif>
                         Tunggu Proses Submit, Kompress Berkas
                     </button>
                 </form>
