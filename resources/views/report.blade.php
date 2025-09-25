@@ -182,10 +182,11 @@
                 <button id="buttoncetak" class="button-87 noprint absolute" onclick="window.print()">Cetak</button>
             @else
                 <button type="button" class="button-87" role="button" disabled>Belum Bisa Cetak</button>
-                <p style="text-align: center;">Anda bisa mencetak Surat setelah dinyatakan ELIGIBLE<br>
-                    Silahkan Cek Data Anda, jika ada perbaikan silahkan mengisi <a href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
-                </p>
+                <p>Anda bisa mencetak Surat setelah dinyatakan ELIGIBLE</p>
             @endif
+            <p style="text-align: center;" class="no-print">
+                Silahkan Cek Data Anda, jika ada perbaikan silahkan mengisi <a href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
+            </p>
             <h2 style="text-align: center;">SURAT VALIDASI <br>PIN (PENOMORAN IJAZAH NASIONAL) <br>INSTITUT AGAMA
                 KRISTEN NEGERI PALANGKA RAYA</h2>
             <div class="no-print">
