@@ -160,13 +160,13 @@ class Daftar extends Component
 
         // Filter berdasarkan Berkas
         if ($this->filterBerkas === 'ada') {
-            $users->whereNotNull('berkas')->where('berkas', '<>', '');
+            $users->whereNotNull('berkas')->orWhere('berkas', '<>', '');
         } elseif ($this->filterBerkas === 'kosong') {
             $users->whereNull('berkas')->orWhere('berkas', '');
         }
         // Filter berdasarkan NINA
         if ($this->filterNina === 'ada') {
-            $users->whereNotNull('nina')->where('nina', '<>', '');
+            $users->whereNotNull('nina')->orWhere('nina', '<>', '');
         } elseif ($this->filterNina === 'kosong') {
             $users->whereNull('nina')->orWhere('nina', '');
         }
