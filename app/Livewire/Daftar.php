@@ -158,17 +158,17 @@ class Daftar extends Component
             ->search($this->search)
             ->where('nim', 'like', $this->angkatan . '%');
 
-        // Filter berdasarkan Berkas
-        if ($this->filterBerkas === 'ada') {
-            $users->whereNotNull('berkas')->orWhere('berkas', '<>', '');
-        } elseif ($this->filterBerkas === 'kosong') {
-            $users->whereNull('berkas')->orWhere('berkas', '');
-        }
         // Filter berdasarkan NINA
         if ($this->filterNina === 'ada') {
             $users->whereNotNull('nina')->orWhere('nina', '<>', '');
         } elseif ($this->filterNina === 'kosong') {
             $users->whereNull('nina')->orWhere('nina', '');
+        }
+        // Filter berdasarkan Berkas
+        if ($this->filterBerkas === 'ada') {
+            $users->whereNotNull('berkas')->orWhere('berkas', '<>', '');
+        } elseif ($this->filterBerkas === 'kosong') {
+            $users->whereNull('berkas')->orWhere('berkas', '');
         }
         $users = $users->status($this->status);
 
