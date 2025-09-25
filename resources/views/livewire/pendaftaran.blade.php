@@ -62,6 +62,44 @@
 
             </div>
         </div>
+        <style>
+            .btn-anim {
+                position: relative;
+                border: 2px solid transparent;
+                overflow: hidden;
+            }
+
+            .btn-anim::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(90deg, transparent, red, transparent);
+                animation: move-border 3s linear infinite;
+            }
+
+            @keyframes move-border {
+                0% {
+                    transform: translateX(-100%) translateY(-100%);
+                }
+
+                50% {
+                    transform: translateX(0%) translateY(0%);
+                }
+
+                100% {
+                    transform: translateX(100%) translateY(100%);
+                }
+            }
+        </style>
+        <div class="row my-3">
+            <div class="col-12 wow fadeInUp">
+                <p class="text-center">Jika ada kesalahan atau perbaikan silahkan mengisi Formulir Ini</p>
+                <a class="btn btn-primary btn-block btn-anim" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
+            </div>
+        </div>
         <div class="row align-items-center mb-3">
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <h1 class="mb-4">Layanan Validasi PIN</h1>
@@ -73,6 +111,7 @@
                 <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split mt-2">Cari Tahu NINA? <div class="fab"><span class="mai-question"></span></div></a>
                 <a target="_blank" href="https://wa.me/6282352127683" class="btn btn-outline border text-secondary mt-2">Tanya Operator Kampus?</a>
                 <a href="#chart" class="btn btn-outline border text-secondary mt-2">Lihat Grafik</a>
+                <a class="btn btn-primary btn-anim" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
             </div>
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <div class="subhead">Formulir</div>
