@@ -28,6 +28,22 @@ class Pendaftaran extends Component
 
     public $seriesData = [];
 
+    public $cek_nim;
+    public $link_surat = "";
+    public $status_eligible;
+
+    public function updatedCekNim()
+    {
+        $mhs = User::where('nim', $this->cek_nim)->first();
+        if ($mhs) {
+            $this->status_eligible = $mhs->status_eligible;
+            $this->link_surat = url('report/' . $mhs->id);
+        } else {
+            $this->status_eligible = "";
+            $this->link_surat = "";
+        }
+    }
+
     public function mount()
     {
         // Ambil jumlah mahasiswa per prodi

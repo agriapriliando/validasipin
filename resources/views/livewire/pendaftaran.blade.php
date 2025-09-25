@@ -96,14 +96,22 @@
         </style>
         <div class="row my-3">
             <div class="col-12 wow fadeInUp">
-                <p class="text-center">Jika ada kesalahan atau perbaikan silahkan mengisi Formulir Ini</p>
+                <p class="text-center">Jika ada kesalahan atau perbaikan silahkan mengisi Formulir Ini | Seluruh data ditarik langsung via API PDDikti, sehingga untuk melakukan perubahan harus
+                    mengajukan ke Pokja
+                    PDDikti Pusat diperlukan waktu maksimal 3
+                    bulan.</p>
                 <a class="btn btn-primary btn-block btn-anim" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
+                @session('suraterror')
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('suraterror') }}
+                    </div>
+                @endsession
             </div>
         </div>
         <div class="row align-items-center mb-3">
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <h1 class="mb-4">Layanan Validasi PIN</h1>
-                <p class="text-lg mb-5">
+                <p class="text-lg mb-2">
                     Seluruh Mahasiswa (S1, S2, S3) IAKN Palangka Raya yang telah mengikuti Ujian (Skripsi/Tesis/Disertasi) <span class="text-primary font-weight-bold">WAJIB</span> Mengisi Formulir PIN
                     sebagai syarat mendapatkan <span class="text-primary font-weight-bold">Nomor Ijazah Nasional (NINA)</span>
                 </p>
@@ -111,7 +119,7 @@
                 <a target="_blank" href="https://pisn.kemdiktisaintek.go.id/" class="btn btn-primary btn-split mt-2">Cari Tahu NINA? <div class="fab"><span class="mai-question"></span></div></a>
                 <a target="_blank" href="https://wa.me/6282352127683" class="btn btn-outline border text-secondary mt-2">Tanya Operator Kampus?</a>
                 <a href="#chart" class="btn btn-outline border text-secondary mt-2">Lihat Grafik</a>
-                <a class="btn btn-primary btn-anim" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
+                <a class="btn btn-primary mt-2 btn-anim" href="https://iaknpky.ac.id/upt-tipd-iakn-palangkaraya/" target="_blank">Formulir Perubahan Data PDDikti</a>
             </div>
             <div class="col-lg-6 mt-4 wow fadeInUp">
                 <div class="subhead">Formulir</div>
@@ -165,6 +173,36 @@
                         Tunggu Proses Submit, Kompress Berkas
                     </button>
                 </form>
+            </div>
+            <div class="col-12">
+                <div x-data="{ open: false }" @click.outside="open = false">
+                    <button @click="open = !open" type="button" class="btn btn-primary mt-2 btn-anim btn-block"><i class="mai-search"></i> Cek NIM Anda</button>
+                    <div x-show="open" x-transition class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="NIM Contoh : 1223233323" wire:model.live.debounce.700ms="cek_nim">
+                        @if ($this->link_surat)
+                            <div class="input-group-append">
+                                <a href="{{ $this->link_surat }}" target="_blank" class="btn btn-primary"><span class="mai-eye"></span> Lihat Surat</a>
+                            </div>
+                        @else
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">{{ $cek_nim ? 'Tidak Ditemukan' : '-----' }}</button>
+                            </div>
+                        @endif
+                        <!-- Loading indicator saat cek_nim diketik -->
+                    </div>
+                    @if ($this->link_surat)
+                        <small x-show="open" class="badge badge-success">Surat Ditemukan</small>
+                        <small x-show="open" class="badge badge-success">NIM Anda : {{ $status_eligible == 'Eligible' ? 'Eligible' : 'Sedang divalidasi oleh Admin' }}</small><br>
+                    @else
+                        @if ($cek_nim != '')
+                            <small x-show="open" class="badge badge-danger">NIM dan Surat Tidak Ditemukan, Silahkan Isi Formulir PIN di Atas</small><br>
+                        @endif
+                    @endif
+                    <small x-show="open" class="text-muted">*Masukan NIM Tanpa Menggunakan Titik</small>
+                    <div wire:loading wire:target="cek_nim" class="mt-2 text-primary">
+                        Sedang mencari Surat Berdasarkan NIM
+                    </div>
+                </div>
             </div>
         </div>
         <hr id="chart">

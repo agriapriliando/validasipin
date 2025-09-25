@@ -264,10 +264,6 @@
                         <td>: {{ $mhs->tempat_lahir . ', ' . \Carbon\Carbon::parse($mhs->tgl_lahir)->translatedFormat('j F Y') }} </td>
                     </tr>
                     <tr>
-                        <td>Alamat</td>
-                        <td>: {{ $mhs->alamat }} </td>
-                    </tr>
-                    <tr>
                         <td>Program Studi</td>
                         <td>: {{ $mhs->prodi }} </td>
                     </tr>
