@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-6 col-md-2 mb-2">
                     <select wire:model.live="status" class="form-control form-control-sm">
-                        <option value="">======</option>
+                        <option value="">==Status==</option>
                         <option value="Belum Cek">Belum Cek</option>
                         <option value="Eligible">Eligible</option>
                         <option value="Non Eligible">Non Eligible</option>
@@ -47,9 +47,16 @@
                 </div>
                 <div class="col-6 col-md-2 mb-2">
                     <select wire:model.live="filterNina" class="form-control form-control-sm">
-                        <option value="">Semua</option>
+                        <option value="">==NINA==</option>
                         <option value="ada">Ada NINA</option>
                         <option value="kosong">Belum ada NINA</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-2 mb-2">
+                    <select wire:model.live="filterBerkas" class="form-control form-control-sm">
+                        <option value="">==BA==</option>
+                        <option value="ada">Ada BA</option>
+                        <option value="kosong">Belum ada BA</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-4 mb-2">
@@ -88,7 +95,7 @@
                                 .map(cell => cell.innerText)
                                 .join('\t'); // Tab sebagai pemisah kolom
                         }).join('\n'); // Enter sebagai pemisah baris
-
+            
                         // Copy ke clipboard
                         navigator.clipboard.writeText(text).then(() => {
                             alert('Data tabel berhasil disalin!');
@@ -107,22 +114,22 @@
                     <div class="row">
                         <div class="col-12 col-md-6">
                             @foreach ($jumlahPerProdi as $row)
-                                <div>
+                                <div class="badge badge-primary">
                                     {{ $row->prodi }} : {{ $row->total }} Orang
                                 </div>
                             @endforeach
-                            <div>Jumlah : {{ $jumlah }} Orang</div>
+                            <div class="badge badge-primary">Jumlah : {{ $jumlah }} Orang</div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <h5>STATUS ELIGIBLE</h5>
                             @foreach ($jumlahEligible as $row)
-                                <div>
+                                <div class="badge badge-success">
                                     {{ $row->status_eligible }} : {{ $row->total }} Orang
                                 </div>
                             @endforeach
-                            <h5>Status NINA (sesuai Eligible)</h5>
-                            <div>Ada : {{ $jumlahNinaNotNull }} Orang</div>
-                            <div>Belum Ada : {{ $jumlahNinaNull }} Orang</div>
+                            <br>
+                            <hr>
+                            <div class="badge badge-success">NINA Terbit : {{ $jumlahNinaNotNull }} Orang</div>
+                            <div class="badge badge-warning">Eligible tetapi NINA Belum Terbit : {{ $jumlahNinaNull }} Orang</div>
                         </div>
                     </div>
                 </div>

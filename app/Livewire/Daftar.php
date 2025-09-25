@@ -27,6 +27,7 @@ class Daftar extends Component
     public $warning;
 
     public $filterNina = '';
+    public $filterBerkas = '';
 
     public $kolomTanggal;
     public $kolomAksi;
@@ -35,6 +36,16 @@ class Daftar extends Component
     {
         $this->allprodi = User::pluck('prodi')->unique()->values();
         $this->warning = Tambahan::whereJudul('Warning')->first();
+    }
+
+    public function updatedFilterBerkas()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedAngkatan()
+    {
+        $this->resetPage();
     }
 
     // Reset ke halaman 1 jika filter berubah
@@ -145,15 +156,21 @@ class Daftar extends Component
     {
         $users = User::prodi($this->selectedProdi)
             ->search($this->search)
-            ->status($this->status)
             ->where('nim', 'like', $this->angkatan . '%');
 
+        // Filter berdasarkan Berkas
+        if ($this->filterBerkas === 'ada') {
+            $users->whereNotNull('berkas')->where('berkas', '<>', '');
+        } elseif ($this->filterBerkas === 'kosong') {
+            $users->whereNull('berkas')->orWhere('berkas', '');
+        }
         // Filter berdasarkan NINA
         if ($this->filterNina === 'ada') {
-            $users->where('status_eligible', 'Eligible')->whereNotNull('nina')->where('nina', '<>', '');
+            $users->whereNotNull('nina')->where('nina', '<>', '');
         } elseif ($this->filterNina === 'kosong') {
-            $users->where('status_eligible', 'Eligible')->whereNull('nina')->orWhere('nina', '');
+            $users->whereNull('nina')->orWhere('nina', '');
         }
+        $users = $users->status($this->status);
 
         $jumlahPerProdi = User::select('prodi', DB::raw('count(*) as total'))
             ->groupBy('prodi')
