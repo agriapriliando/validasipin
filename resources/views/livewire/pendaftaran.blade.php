@@ -210,6 +210,12 @@
             <div class="col-12 wow fadeInUp">
                 <div id="charthome"></div>
             </div>
+            <div class="col-12 wow fadeInUp text-center">
+                <div class="badge badge-primary">TOTAL SELURUHNYA : {{ $total }} Orang</div>
+                <div class="badge badge-success">Eligible : {{ $total_eligible }} Orang</div>
+                <div class="badge badge-warning">Sedang Divalidasi : {{ $total_proses }} Orang</div>
+                <div class="badge badge-success">NINA Terbit : {{ $total_nina }} Orang</div>
+            </div>
         </div>
     </div>
 </div>

@@ -32,20 +32,18 @@ class Pendaftaran extends Component
     public $link_surat = "";
     public $status_eligible;
 
-    public function updatedCekNim()
-    {
-        $mhs = User::where('nim', $this->cek_nim)->first();
-        if ($mhs) {
-            $this->status_eligible = $mhs->status_eligible;
-            $this->link_surat = url('report/' . $mhs->id);
-        } else {
-            $this->status_eligible = "";
-            $this->link_surat = "";
-        }
-    }
+    public $total;
+    public $total_eligible;
+    public $total_proses;
+    public $total_nina;
 
     public function mount()
     {
+        $this->total = User::count();
+        $this->total_eligible = User::where('status_eligible', 'Eligible')->count();
+        $this->total_proses = User::where('status_eligible', '!=', 'Eligible')->count();
+        $this->total_nina = User::whereNotNull('nina')->where('nina', '<>', '')->count();
+
         // Ambil jumlah mahasiswa per prodi
         $result = User::select('prodi', DB::raw('COUNT(*) as total'))
             ->groupBy('prodi')
@@ -60,6 +58,18 @@ class Pendaftaran extends Component
             ];
         });
     }
+    public function updatedCekNim()
+    {
+        $mhs = User::where('nim', $this->cek_nim)->first();
+        if ($mhs) {
+            $this->status_eligible = $mhs->status_eligible;
+            $this->link_surat = url('report/' . $mhs->id);
+        } else {
+            $this->status_eligible = "";
+            $this->link_surat = "";
+        }
+    }
+
 
     public function cekData()
     {
