@@ -214,7 +214,8 @@
                                     Lihat Berkas Berita Acara
                                 </a>
                             @else
-                                <span class="text-danger">Anda Belum Unggah Berita Acara Ujian, Silahkan Unggah</span>
+                                <span class="text-danger">Anda Belum Unggah Berita Acara Ujian, Silahkan Unggah <br> Jika tidak ada BA Ujian, silahkan upload
+                                    SK Yudisium</span>
                             @endif
                         </div>
                     </form>

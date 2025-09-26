@@ -47,8 +47,6 @@ class Daftar extends Component
     {
         $this->resetPage();
     }
-
-    // Reset ke halaman 1 jika filter berubah
     public function updatedSelectedProdi()
     {
         $this->resetPage();

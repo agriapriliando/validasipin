@@ -150,7 +150,8 @@
                     <div class="py-2">
                         <label for="berkas" class="form-label text-muted">Upload Berita Acara Ujian (PDF / Foto)</label>
                         <input type="file" id="berkas" wire:model="berkas" class="form-control">
-                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi | Hanya Halaman Depan, yang mencantumkan tanggal dan nilai</small>
+                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi | Hanya Halaman Depan, yang mencantumkan tanggal dan nilai <br> Jika tidak ada Berita Acara Ujian, silahkan upload
+                            SK Yudisium</small>
                         <a class="m-0 p-0 text-muted" style="font-size: 14px" href="{{ asset('assets/02 contoh surat dan berita acara.jpg') }}" target="_blank">Lihat Contoh Berita Acara</a>
                         @error('berkas')
                             <div class="text-danger mt-1 small">{{ $message }}</div>
