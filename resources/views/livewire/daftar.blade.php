@@ -142,7 +142,8 @@
                 <a class="btn btn-sm btn-primary m-2" target="_blank" href="https://docs.google.com/spreadsheets/d/1xttNvO8zF_FHAo70s25CYtVyepa_At0l_oWC5pCDTVE/edit?usp=sharing">Daftar Ajuan
                     Perubahan Data Mahasiswa</a>
                 @if (session('status'))
-                    <div wire:key="flash-{{ uniqid('status_', true) }}" x-data="{ show: true }" x-init="show = true" x-show="show" x-transition class="alert alert-success mt-2 position-relative">
+                    <div wire:key="flash-{{ uniqid('status_', true) }}" x-data="{ show: true }" x-init="show = true" x-show="show" x-transition
+                        class="alert alert-success mt-2 position-relative">
                         {{ session('status') }}
                         <button class="btn btn-sm btn-close" type="button" @click="show = false">&times;</button>
                     </div>
@@ -172,7 +173,7 @@
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
-                                <tr x-data="{ open: false }">
+                                <tr x-data="{ open: false }" wire:key="user-{{ $user->id }}">
                                     <th scope="row">
                                         {{ ($users->currentPage() - 1) * $users->perPage() + $loop->index + 1 }}
                                         @if ($kolomAksi)
