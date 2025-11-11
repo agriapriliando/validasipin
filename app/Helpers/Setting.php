@@ -19,8 +19,8 @@ class Setting
     {
         // contoh URL
         // $this->url = 'http://36.89.57.228/ws/live2.php?=&=';
-        // $this->url = 'http://localhost:3003/ws/sandbox2.php';
-        $this->url = 'https://neo.tipdiaknpky.com/ws/live2.php';
+        $this->url = 'http://localhost:3003/ws/sandbox2.php';
+        // $this->url = 'https://neo.tipdiaknpky.com/ws/live2.php';
 
         // dapatkan token
         try {

@@ -2,8 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Helpers\Setting;
 use App\Models\Tambahan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -31,6 +33,9 @@ class Daftar extends Component
 
     public $kolomTanggal;
     public $kolomAksi;
+
+    // Input NIM manual
+    public $nim = '';
 
     public function mount()
     {
@@ -64,6 +69,67 @@ class Daftar extends Component
 
         $this->resetPage();
     }
+
+    public function insertManual()
+    {
+        $nimInput = trim((string) $this->nim);
+        if ($nimInput === '') {
+            session()->flash('status', 'NIM harus diisi.');
+            return;
+        }
+
+        // Cek jika user sudah ada
+        if (User::where('nim', $nimInput)->first()) {
+            session()->flash('status', 'NIM sudah terdaftar.');
+        } else {
+            // Normalisasi NIM untuk format lama saat query ke Feeder
+            $nimQuery = $nimInput;
+
+            $setting = new Setting();
+            $list = $setting->getData('GetListMahasiswa', '', "nim like '" . $nimQuery . "'");
+
+            // cek jika koneksi gagal
+            if (!is_array($list) || ($list['error_code'] ?? 1) != 0) {
+                session()->flash('status', 'Aplikasi PDDikti Pusat sedang Gangguan, Silahkan Tunggu Beberapa Saat Lagi');
+                return;
+            }
+
+            if (($list['jumlah'] ?? 0) < 1) {
+                session()->flash('status', 'NIM Anda : ' . $nimInput . ' Tidak Terdaftar di PDDikti, Coba Kembali');
+                return;
+            }
+
+            // Ambil baris pertama dari hasil list
+            $row = $list['data'][0];
+            // dd($row);
+
+            // Ambil detail biodata untuk melengkapi data
+            $detailResp = (new Setting())->getData('GetBiodataMahasiswa', '', "id_mahasiswa = '" . $row['id_mahasiswa'] . "'");
+            $detail = $detailResp['data'][0] ?? null;
+            // dd($detail);
+            $alamat = $detail ? ($detail['jalan'] . ', ' . $detail['nama_wilayah'] . ', ' . $detail['dusun']) : '';
+            $tglLahir = Carbon::parse($detail['tanggal_lahir'])->format('Y-m-d');
+            $datamhs = [
+                'nim'             => $nimInput,
+                'name'            => $row['nama_mahasiswa'],
+                'password'        => bcrypt('123456'),
+                'id_mahasiswa'    => $row['id_mahasiswa'],
+                'nama_mahasiswa'  => $row['nama_mahasiswa'] ?? '',
+                'tempat_lahir'    => $detail['tempat_lahir'] ?? '',
+                'tgl_lahir'       => $tglLahir,
+                'alamat'          => $alamat,
+                'prodi'           => $row['nama_program_studi'] ?? '',
+                'nohp'            => '000',
+                'status_eligible' => 'Eligible',
+            ];
+            // dd($datamhs);
+            // Insert ke tabel users
+            $datamhs = User::create($datamhs);
+
+            session()->flash('status', 'Data Mahasiswa dengan NIM ' . $nimInput . ' Berhasil Ditambahkan.');
+        }
+    }
+
 
     public function toggleStatusEligible($id)
     {

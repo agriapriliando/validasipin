@@ -62,6 +62,12 @@
                 <div class="col-12 col-md-4 mb-2">
                     <input type="text" wire:model.live.debounce.250ms="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIM" aria-label="Search">
                 </div>
+                <div class="col-12 col-md-4 mb-2">
+                    <form wire:submit.prevent="insertManual" class="d-flex">
+                        <input type="text" wire:model.defer="nim" class="form-control form-control-sm" placeholder="Input NIM manual">
+                        <button type="submit" class="btn btn-sm btn-primary ms-2">Tambah</button>
+                    </form>
+                </div>
                 <style>
                     .form-check-label {
                         white-space: nowrap;
@@ -136,7 +142,7 @@
                 <a class="btn btn-sm btn-primary m-2" target="_blank" href="https://docs.google.com/spreadsheets/d/1xttNvO8zF_FHAo70s25CYtVyepa_At0l_oWC5pCDTVE/edit?usp=sharing">Daftar Ajuan
                     Perubahan Data Mahasiswa</a>
                 @if (session('status'))
-                    <div x-data="{ show: true }" x-show="show" x-transition class="alert alert-success mt-2 position-relative">
+                    <div wire:key="flash-{{ uniqid('status_', true) }}" x-data="{ show: true }" x-init="show = true" x-show="show" x-transition class="alert alert-success mt-2 position-relative">
                         {{ session('status') }}
                         <button class="btn btn-sm btn-close" type="button" @click="show = false">&times;</button>
                     </div>
