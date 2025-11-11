@@ -158,15 +158,25 @@ class Daftar extends Component
 
         // Filter berdasarkan NINA
         if ($this->filterNina === 'ada') {
-            $users->whereNotNull('nina')->orWhere('nina', '<>', '');
+            // NINA ada: not null dan tidak kosong (AND), dikelompokkan agar tidak menembus filter lain
+            $users->where(function ($q) {
+                $q->whereNotNull('nina')->where('nina', '<>', '');
+            });
         } elseif ($this->filterNina === 'kosong') {
-            $users->whereNull('nina')->orWhere('nina', '');
+            // NINA kosong: null atau string kosong (OR) dalam satu kelompok
+            $users->where(function ($q) {
+                $q->whereNull('nina')->orWhere('nina', '');
+            });
         }
         // Filter berdasarkan Berkas
         if ($this->filterBerkas === 'ada') {
-            $users->whereNotNull('berkas')->orWhere('berkas', '<>', '');
+            $users->where(function ($q) {
+                $q->whereNotNull('berkas')->where('berkas', '<>', '');
+            });
         } elseif ($this->filterBerkas === 'kosong') {
-            $users->whereNull('berkas')->orWhere('berkas', '');
+            $users->where(function ($q) {
+                $q->whereNull('berkas')->orWhere('berkas', '');
+            });
         }
         $users = $users->status($this->status);
 
@@ -180,9 +190,17 @@ class Daftar extends Component
 
         $jumlah = User::count();
 
-        $jumlahNinaNull = User::where('status_eligible', 'Eligible')->whereNull('nina')->orWhere('nina', '')->count();
+        $jumlahNinaNull = User::where('status_eligible', 'Eligible')
+            ->where(function ($q) {
+                $q->whereNull('nina')->orWhere('nina', '');
+            })
+            ->count();
 
-        $jumlahNinaNotNull = User::where('status_eligible', 'Eligible')->whereNotNull('nina')->where('nina', '<>', '')->count();
+        $jumlahNinaNotNull = User::where('status_eligible', 'Eligible')
+            ->where(function ($q) {
+                $q->whereNotNull('nina')->where('nina', '<>', '');
+            })
+            ->count();
 
         $users = $users->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
