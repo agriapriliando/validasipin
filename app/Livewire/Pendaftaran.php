@@ -31,6 +31,7 @@ class Pendaftaran extends Component
     public $cek_nim;
     public $link_surat = "";
     public $status_eligible;
+    public $status_nina;
 
     public $total;
     public $total_eligible;
@@ -63,6 +64,7 @@ class Pendaftaran extends Component
         $mhs = User::where('nim', $this->cek_nim)->first();
         if ($mhs) {
             $this->status_eligible = $mhs->status_eligible;
+            $this->status_nina = $mhs->nina ? 'Terbit' : 'Belum Terbit';
             $this->link_surat = url('report/' . $mhs->id);
         } else {
             $this->status_eligible = "";

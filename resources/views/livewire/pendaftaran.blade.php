@@ -8,7 +8,7 @@
                         0%,
                         100% {
                             background-color: #fff3cd;
-                            color: #856404;
+                            color: #bea40f;
                         }
 
                         50% {
@@ -18,15 +18,22 @@
                     }
 
                     .alert-blink-warning {
-                        animation: blink-bg-warning 1s linear infinite;
+                        animation: blink-bg-warning 3s linear infinite;
                     }
                 </style>
-                <div class="col">
+                <div class="col-12 d-none">
                     <div x-data="{ show: true }" x-show="show" x-transition class="alert alert-warning alert-blink-warning alert-dismissible fade show" role="alert" style="margin-top:20px;">
                         <strong>Mohon Maaf!</strong> Beberapa ajuan memerlukan waktu yang lebih lama untuk diproses, karena Aplikasi PISN Kemdikti sedang mengalami Gangguan. Terima Kasih.
                         <button type="button" class="btn btn-sm btn-outline-warning" @click="show = false" aria-label="Close"><span class="mai-close"></span></button>
                     </div>
                 </div>
+                <div class="col-12 text-center fixed-bottom" style="z-index: 1030; bottom: 3px;">
+                    <div x-data="{ show: true }" x-show="show" x-transition class="alert-blink-warning rounded p-2 mb-0" role="alert">
+                        <strong>Pemberitahuan!</strong> Pengisian Formulir PIN ditutup untuk sementara, karena UPT TIPD sedang melakukan rekapitulasi data. Untuk cek data, gunakan fitur Cek NIM.
+                        <small @click="show = false" style="text-decoration: underline">Tutup</small>
+                    </div>
+                </div>
+
             </div>
         @endif
         <div class="row">
@@ -132,7 +139,8 @@
                     x-on:livewire-upload-error="progress = 0" x-on:livewire-upload-progress="progress = $event.detail.progress">
 
                     <div class="py-2">
-                        <input type="text" wire:model.live="nim" class="form-control @error('nim') is-invalid @enderror" placeholder="NIM Contoh : 1223233323">
+                        <input type="text" wire:model.live="nim" class="form-control @error('nim') is-invalid @enderror" placeholder="NIM Contoh : 1223233323"
+                            {{ $warning['isi'] == 'Aktif' ? 'disabled' : '' }}>
                         <small class="form-text text-muted">*Masukan NIM Tanpa Menggunakan Titik</small>
                         @error('nim')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -140,7 +148,8 @@
                     </div>
 
                     <div class="py-2">
-                        <input type="text" wire:model.live="nohp" class="form-control @error('nohp') is-invalid @enderror" placeholder="Contoh 085249999999">
+                        <input type="text" wire:model.live="nohp" class="form-control @error('nohp') is-invalid @enderror" placeholder="Contoh 085249999999"
+                            {{ $warning['isi'] == 'Aktif' ? 'disabled' : '' }}>
                         <small class="form-text text-muted">*Masukan No HP Whatsapp Aktif</small>
                         @error('nohp')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -149,8 +158,9 @@
 
                     <div class="py-2">
                         <label for="berkas" class="form-label text-muted">Upload Berita Acara Ujian (PDF / Foto)</label>
-                        <input type="file" id="berkas" wire:model="berkas" class="form-control">
-                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi | Hanya Halaman Depan, yang mencantumkan tanggal dan nilai <br> Jika tidak ada Berita Acara Ujian, silahkan upload
+                        <input type="file" id="berkas" wire:model="berkas" class="form-control" {{ $warning['isi'] == 'Aktif' ? 'disabled' : '' }}>
+                        <small class="form-text text-muted">Skripsi/ Tesis/ Disertasi | Hanya Halaman Depan, yang mencantumkan tanggal dan nilai <br> Jika tidak ada Berita Acara Ujian, silahkan
+                            upload
                             SK Yudisium</small>
                         <a class="m-0 p-0 text-muted" style="font-size: 14px" href="{{ asset('assets/02 contoh surat dan berita acara.jpg') }}" target="_blank">Lihat Contoh Berita Acara</a>
                         @error('berkas')
@@ -159,17 +169,18 @@
                     </div>
 
                     {{-- Progress bar upload --}}
-                    <div class="py-2" x-show="progress > 0">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="'width: ' + progress + '%'">
-                                <span x-text="progress + '%'"></span>
+                    @if ($warning['isi'] != 'Aktif')
+                        <div class="py-2" x-show="progress > 0">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="'width: ' + progress + '%'">
+                                    <span x-text="progress + '%'"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary rounded-pill" :disabled="progress > 0 || {{ $errors->any() ? 'true' : 'false' }}">
-                        S U B M I T
-                    </button>
+                        <button type="submit" class="btn btn-primary rounded-pill" :disabled="progress > 0 || {{ $errors->any() ? 'true' : 'false' }}">
+                            S U B M I T
+                        </button>
+                    @endif
                     <button wire:loading wire:target="cekData" class="btn btn-primary rounded-pill" @if ($errors->any()) disabled @endif>
                         Tunggu Proses Submit, Kompress Berkas
                     </button>
@@ -193,7 +204,8 @@
                     </div>
                     @if ($this->link_surat)
                         <small x-show="open" class="badge badge-success">Surat Ditemukan</small>
-                        <small x-show="open" class="badge badge-success">NIM Anda : {{ $status_eligible == 'Eligible' ? 'Eligible' : 'Sedang divalidasi oleh Admin' }}</small><br>
+                        <small x-show="open" class="badge badge-success">NIM Anda : {{ $status_eligible == 'Eligible' ? 'Eligible' : 'Sedang divalidasi oleh Admin' }}</small>
+                        <small x-show="open" class="badge badge-success">NINA : {{ $status_nina ? 'Terbit' : 'Belum Terbit' }}</small><br>
                     @else
                         @if ($cek_nim != '')
                             <small x-show="open" class="badge badge-danger">NIM dan Surat Tidak Ditemukan, Silahkan Isi Formulir PIN di Atas</small><br>
